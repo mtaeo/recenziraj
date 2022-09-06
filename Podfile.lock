@@ -36,6 +36,7 @@ PODS:
   - GoogleUtilities/Reachability (7.7.0):
     - GoogleUtilities/Logger
   - GTMSessionFetcher/Core (2.1.0)
+  - lottie-ios (3.4.3)
   - nanopb (2.30909.0):
     - nanopb/decode (= 2.30909.0)
     - nanopb/encode (= 2.30909.0)
@@ -46,6 +47,7 @@ PODS:
 
 DEPENDENCIES:
   - FirebaseAuth
+  - lottie-ios
   - SnapKit (~> 5.6.0)
 
 SPEC REPOS:
@@ -57,6 +59,7 @@ SPEC REPOS:
     - GoogleDataTransport
     - GoogleUtilities
     - GTMSessionFetcher
+    - lottie-ios
     - nanopb
     - PromisesObjC
     - SnapKit
@@ -69,10 +72,11 @@ SPEC CHECKSUMS:
   GoogleDataTransport: 1c8145da7117bd68bbbed00cf304edb6a24de00f
   GoogleUtilities: e0913149f6b0625b553d70dae12b49fc62914fd1
   GTMSessionFetcher: ffbb25ec00ebcb5201adab0a56d808f6f1902d9f
+  lottie-ios: 9ae750cdc7820fecbd3c2f0cfc493038208fcdc4
   nanopb: b552cce312b6c8484180ef47159bc0f65a1f0431
   PromisesObjC: ab77feca74fa2823e7af4249b8326368e61014cb
   SnapKit: e01d52ebb8ddbc333eefe2132acf85c8227d9c25
 
-PODFILE CHECKSUM: 65d1de39760f933327b14f0d9c442e38c3a25fde
+PODFILE CHECKSUM: 51637b3cbe0035209f95619d6234ea9e9302fb73
 
 COCOAPODS: 1.11.3

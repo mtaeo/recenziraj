@@ -8,4 +8,5 @@ target 'RecenziRAJ' do
   # Pods for RecenziRAJ
   pod 'SnapKit', '~> 5.6.0'
   pod 'FirebaseAuth'
+  pod 'lottie-ios'
 end
