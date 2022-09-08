@@ -36,6 +36,11 @@ class BaseViewController<T: BaseViewModel>: UIViewController {
         addSubviews()
         makeConstraints()
     }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        stopSpinner()
+    }
 }
 
 private extension BaseViewController {

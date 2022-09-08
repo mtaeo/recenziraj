@@ -11,19 +11,11 @@ final class MainTabBarController: UITabBarController {
     private struct Constants {
         static let shadowOpacity: Float = 0.5
         static let shadowRadius: CGFloat = 0.0
+        static let topInset: CGFloat = 15
+        static let horizontalInset: CGFloat = 0
+        static let bottomInset: CGFloat = -10
         static let borderWidth: CGFloat = 0
     }
-    
-    private lazy var addButton: UIButton = {
-        let button = UIButton()
-        button.setImage(.checkmark, for: .normal)
-        button.layer.shadowColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.25).cgColor
-        button.layer.shadowOffset = CGSize(width: 0.0, height: 3.0)
-        button.layer.shadowOpacity = Constants.shadowOpacity
-        button.layer.shadowRadius = Constants.shadowRadius
-        button.layer.masksToBounds = false
-        return button
-    }()
     
     private let viewModel: MainTabBarViewModel
     
@@ -40,33 +32,22 @@ final class MainTabBarController: UITabBarController {
         super.viewDidLoad()
         
         setupSelf()
-        setupTabBarItems()
-        addSubviews()
-        makeConstraints()
     }
 }
 
 private extension MainTabBarController {
     func setupSelf() {
-        view.backgroundColor = .yellow
-        UITabBar.appearance().barTintColor = .yellow
-        UITabBar.appearance().layer.borderWidth = Constants.borderWidth
-        UITabBar.appearance().clipsToBounds = true
-        tabBar.isTranslucent = false
-    }
+        let tabBarAppearance = UITabBar.appearance()
+        tabBarAppearance.isTranslucent = false
+        tabBarAppearance.backgroundColor = .systemCyan
+        tabBarAppearance.tintColor = .red
     
-    func setupTabBarItems() {
-        //
     }
-    
-    func addSubviews() {
-        tabBar.addSubview(addButton)
-    }
-    
-    func makeConstraints() {
-        addButton.snp.makeConstraints {
-            $0.centerX.equalToSuperview()
-            $0.top.equalTo(0)
-        }
+}
+
+extension MainTabBarController {
+    func setupTabBarItemFor(_ viewController: UIViewController, image: UIImage) {
+        viewController.tabBarItem.image = image.withRenderingMode(UIImage.RenderingMode.alwaysOriginal)
+        viewController.tabBarItem.title = nil
     }
 }

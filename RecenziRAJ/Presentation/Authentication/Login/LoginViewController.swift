@@ -8,7 +8,6 @@
 import UIKit
 
 final class LoginViewController: BaseViewController<LoginViewModel> {
-    
     private struct Constants {
         static let buttonCornerRadius: CGFloat = 10
         static let imageCornerRadius: CGFloat = 25
@@ -26,7 +25,7 @@ final class LoginViewController: BaseViewController<LoginViewModel> {
         static let repeatPasswordPlaceholderLabel = "******"
         static let forgotPasswordLabel = "Forgot password?"
     }
-    
+        
     private lazy var backgroundView: UIView = {
         let view = UIView()
         view.backgroundColor = .white
@@ -203,13 +202,14 @@ private extension LoginViewController {
     }
     
     @objc func registerButtonTapped(_ sender: UITapGestureRecognizer) {
-        navigationController?.popViewController(animated: true)
+        viewModel.onDidTapRegister?()
     }
     
     @objc func loginButtonTapped(_ sender: UITapGestureRecognizer) {
         viewModel.loginUser(email: emailTextField.textField.text ?? "", password: passwordTextField.textField.text ?? "") { [weak self] in
             //
             print("success")
+            self?.viewModel.onSuccessfullLogin?()
         } onErrorCompletion: { errorDescription in
             print(errorDescription)
         }

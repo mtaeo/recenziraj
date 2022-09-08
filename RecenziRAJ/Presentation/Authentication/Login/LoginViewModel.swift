@@ -18,6 +18,7 @@ final class LoginViewModel: BaseViewModel {
     var showAlertWithMessage: ((String?) -> Void)?
     var onStateChange: ((LogInState) -> Void)?
     var onSuccessfullLogin: (() -> Void)?
+    var onDidTapRegister: (() -> Void)?
     
     var state: LogInState = .idle(isEmailValid: false, isPasswordValid: false) {
         didSet {

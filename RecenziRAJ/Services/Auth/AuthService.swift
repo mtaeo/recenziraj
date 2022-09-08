@@ -73,5 +73,15 @@ final class AuthService: AuthServiceProtocol {
             completion(signUpError)
         }
     }
+    
+    func logoutUser() {
+        do {
+            try auth.signOut()
+            print("succc")
+        } catch {
+            print(error)
+        }
+    }
+    
 }
 

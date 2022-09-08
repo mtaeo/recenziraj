@@ -18,6 +18,7 @@ final class RegisterViewModel: BaseViewModel {
     
     var onStateChange: ((State) -> Void)?
     var onDidTapLogin: (() -> Void)?
+    var onSuccessfullRegistration: (() -> Void)?
     
     var state: State = .idle(isEmailValid: false, isPasswordValid: false, isRepeatPasswordValid: false) {
         didSet {

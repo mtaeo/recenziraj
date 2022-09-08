@@ -246,7 +246,7 @@ private extension RegisterViewController {
     @objc func registerButtonTapped() {
         viewModel.registerUser(email: emailTextField.textField.text ?? "", password: passwordTextField.textField.text ?? "") { [weak self] in
             //
-            self?.onSuccessfullRegistration?()
+            self?.viewModel.onSuccessfullRegistration?()
         } onErrorCompletion: { errorDescription in
             print(errorDescription)
         }
