@@ -33,18 +33,12 @@ class BaseViewController<T: BaseViewModel>: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        print("SETTING UP")
-        setupSelf()
         addSubviews()
         makeConstraints()
     }
 }
 
 private extension BaseViewController {
-    func setupSelf() {
-        view.backgroundColor = .yellow
-    }
-    
     func addSubviews() {
         view.addSubview(spinnerView)
     }

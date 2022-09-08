@@ -23,6 +23,8 @@
 		8C94717828BFBF2B00C8AAA4 /* BaseViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C94717728BFBF2B00C8AAA4 /* BaseViewModel.swift */; };
 		8CE77FC328BBAFD200B6B0F0 /* AuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CE77FC228BBAFD200B6B0F0 /* AuthService.swift */; };
 		8CE77FC628BBB0B400B6B0F0 /* AuthErrors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CE77FC528BBB0B400B6B0F0 /* AuthErrors.swift */; };
+		8CF861B428C7F2440044B440 /* MainTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CF861B328C7F2440044B440 /* MainTabBarController.swift */; };
+		8CF861B628C7F25C0044B440 /* MainTabBarViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CF861B528C7F25C0044B440 /* MainTabBarViewModel.swift */; };
 		DA5CB367D0423F914A3148DF /* Pods_RecenziRAJ.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8177BEB7064AEC4EA93F84BE /* Pods_RecenziRAJ.framework */; };
 /* End PBXBuildFile section */
 
@@ -48,6 +50,8 @@
 		8C94717728BFBF2B00C8AAA4 /* BaseViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseViewModel.swift; sourceTree = "<group>"; };
 		8CE77FC228BBAFD200B6B0F0 /* AuthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthService.swift; sourceTree = "<group>"; };
 		8CE77FC528BBB0B400B6B0F0 /* AuthErrors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthErrors.swift; sourceTree = "<group>"; };
+		8CF861B328C7F2440044B440 /* MainTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabBarController.swift; sourceTree = "<group>"; };
+		8CF861B528C7F25C0044B440 /* MainTabBarViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabBarViewModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -107,6 +111,7 @@
 		8C6953DE28BA94E70071956B /* Presentation */ = {
 			isa = PBXGroup;
 			children = (
+				8CF861B228C7F2130044B440 /* MainTabBar */,
 				8C94717428BFBEF100C8AAA4 /* Shared */,
 				8C6953E528BA96EF0071956B /* Authentication */,
 				8C6953E028BA96950071956B /* Main */,
@@ -191,6 +196,15 @@
 				8CE77FC528BBB0B400B6B0F0 /* AuthErrors.swift */,
 			);
 			path = Auth;
+			sourceTree = "<group>";
+		};
+		8CF861B228C7F2130044B440 /* MainTabBar */ = {
+			isa = PBXGroup;
+			children = (
+				8CF861B328C7F2440044B440 /* MainTabBarController.swift */,
+				8CF861B528C7F25C0044B440 /* MainTabBarViewModel.swift */,
+			);
+			path = MainTabBar;
 			sourceTree = "<group>";
 		};
 		DE0C4C6CCBA32126B623AEED /* Frameworks */ = {
@@ -316,6 +330,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8CF861B628C7F25C0044B440 /* MainTabBarViewModel.swift in Sources */,
 				8CE77FC628BBB0B400B6B0F0 /* AuthErrors.swift in Sources */,
 				8C6953CD28BA85670071956B /* MainViewController.swift in Sources */,
 				8C94717628BFBEFF00C8AAA4 /* BaseViewController.swift in Sources */,
@@ -326,6 +341,7 @@
 				8CE77FC328BBAFD200B6B0F0 /* AuthService.swift in Sources */,
 				8C6953E728BA97150071956B /* RegisterViewController.swift in Sources */,
 				8C6953C928BA85670071956B /* AppDelegate.swift in Sources */,
+				8CF861B428C7F2440044B440 /* MainTabBarController.swift in Sources */,
 				8C6953CB28BA85670071956B /* SceneDelegate.swift in Sources */,
 				8C3AA19128BFCEF70024CA30 /* LoginViewController.swift in Sources */,
 				8C6953E228BA96A10071956B /* MainViewModel.swift in Sources */,

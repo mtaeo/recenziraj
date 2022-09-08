@@ -18,12 +18,26 @@ final class MainViewController: BaseViewController<MainViewModel> {
         
         let loginViewModel = LoginViewModel(authService: authService)
         let loginViewController = LoginViewController(viewModel: loginViewModel)
+        
+        let mainTabBarViewModel = MainTabBarViewModel(authService: authService)
+        let mainTabBarController = MainTabBarController(viewModel: mainTabBarViewModel)
 
         registerViewModel.onDidTapLogin = { [weak self] in
             self?.navigationController?.pushViewController(loginViewController, animated: true)
         }
         
-        navigationController?.pushViewController(registerViewController, animated: true)
+        registerViewController.onSuccessfullRegistration = { [weak self] in
+            guard let window = (UIApplication.shared.connectedScenes.first as? UIWindowScene)?.windows.first else { return }
+            
+            window.rootViewController = mainTabBarController
+            UIView.transition(with: window,
+                              duration: 0.5,
+                              options: [.transitionFlipFromLeft],
+                              animations: nil,
+                              completion: nil)
+        }
+        
+        navigationController?.setViewControllers([registerViewController], animated: true)
     }
 }
 

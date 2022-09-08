@@ -26,6 +26,8 @@ final class RegisterViewController: BaseViewController<RegisterViewModel> {
         static let repeatPasswordPlaceholderLabel = "******"
     }
     
+    var onSuccessfullRegistration: (() -> Void)?
+    
     private lazy var backgroundView: UIView = {
         let view = UIView()
         view.backgroundColor = .white
@@ -244,7 +246,7 @@ private extension RegisterViewController {
     @objc func registerButtonTapped() {
         viewModel.registerUser(email: emailTextField.textField.text ?? "", password: passwordTextField.textField.text ?? "") { [weak self] in
             //
-            print("success")
+            self?.onSuccessfullRegistration?()
         } onErrorCompletion: { errorDescription in
             print(errorDescription)
         }
@@ -283,6 +285,7 @@ extension RegisterViewController: UITextFieldDelegate {
         switch state {
         case .success:
             stopSpinner()
+            
         case .failure(type: let type):
             stopSpinner()
             let message: String
