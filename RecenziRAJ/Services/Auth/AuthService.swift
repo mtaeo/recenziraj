@@ -13,6 +13,7 @@ enum AuthSignUpState {
 }
 
 protocol AuthServiceProtocol {
+    var currentUser: User? { get }
     var signUpState: AuthSignUpState { get set }
     
     func loginWithEmail(email: String, password: String, completion: @escaping (_ error: ApiError.LoginError?) -> Void)
@@ -22,10 +23,11 @@ protocol AuthServiceProtocol {
 final class AuthService: AuthServiceProtocol {
     
     private let auth = FirebaseAuth.Auth.auth()
+    var currentUser: User?
     var signUpState = AuthSignUpState.failure
     
     func loginWithEmail(email: String, password: String, completion: @escaping (ApiError.LoginError?) -> Void) {
-        auth.signIn(withEmail: email, password: password) { authResult, error in
+        auth.signIn(withEmail: email, password: password) { [weak self] authResult, error in
             
             let loginError: ApiError.LoginError?
             
@@ -43,6 +45,7 @@ final class AuthService: AuthServiceProtocol {
                     loginError = .unknown
                 }
             } else {
+                self?.currentUser = self?.auth.currentUser
                 loginError = nil
             }
             completion(loginError)
@@ -50,7 +53,7 @@ final class AuthService: AuthServiceProtocol {
     }
     
     func registerUser(email: String, password: String, completion: @escaping (ApiError.RegisterError?) -> Void) {
-        auth.createUser(withEmail: email, password: password) { authResult, error in
+        auth.createUser(withEmail: email, password: password) { [weak self] authResult, error in
             
             let signUpError: ApiError.RegisterError?
             
@@ -68,6 +71,7 @@ final class AuthService: AuthServiceProtocol {
                     signUpError = .unknown
                 }
             } else {
+                self?.currentUser = self?.auth.currentUser
                 signUpError = nil
             }
             completion(signUpError)
@@ -77,7 +81,7 @@ final class AuthService: AuthServiceProtocol {
     func logoutUser() {
         do {
             try auth.signOut()
-            print("succc")
+            currentUser = nil
         } catch {
             print(error)
         }

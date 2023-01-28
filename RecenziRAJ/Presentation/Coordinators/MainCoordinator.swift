@@ -47,12 +47,12 @@ private extension MainCoordinator {
         let homeNavigationController = UINavigationController()
         let homeCoordinator = HomeCoordinator(navigationController: homeNavigationController, authService: authService)
         push(homeCoordinator)
-        setupTabBarItemFor(homeNavigationController, image: UIImage(systemName: "house")!)
+        setupTabBarItemFor(homeNavigationController, image: UIImage(systemName: "house")!, title: "Home")
 
         let profileNavigationController = UINavigationController()
         let profileCoordinator = ProfileCoordinator(navigationController: profileNavigationController, authService: authService)
         push(profileCoordinator)
-        setupTabBarItemFor(profileNavigationController, image: UIImage(systemName: "person.circle")!)
+        setupTabBarItemFor(profileNavigationController, image: UIImage(systemName: "person.circle")!, title: "Profile")
         
         let mainTabBarViewModel = MainTabBarViewModel(authService: authService)
         let mainTabBarViewController = MainTabBarController(viewModel: mainTabBarViewModel)
@@ -68,9 +68,11 @@ private extension MainCoordinator {
         }
     }
 
-    func setupTabBarItemFor(_ viewController: UIViewController, image: UIImage, selectedImage: UIImage? = nil) {
-        viewController.tabBarItem.image = image.withTintColor(.gray, renderingMode: UIImage.RenderingMode.alwaysOriginal)
+    func setupTabBarItemFor(_ viewController: UIViewController, image: UIImage, title: String? = nil) {
+        viewController.tabBarItem.image = image.withTintColor(.lightGray, renderingMode: UIImage.RenderingMode.alwaysOriginal)
         viewController.tabBarItem.selectedImage = image.withTintColor(.white, renderingMode: UIImage.RenderingMode.alwaysOriginal)
+        viewController.title = title
+        
     }
 }
 

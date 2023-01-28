@@ -38,16 +38,9 @@ final class MainTabBarController: UITabBarController {
 private extension MainTabBarController {
     func setupSelf() {
         let tabBarAppearance = UITabBar.appearance()
-        tabBarAppearance.isTranslucent = true
-        tabBarAppearance.backgroundColor = .systemCyan
+        tabBarAppearance.isTranslucent = false
+        tabBarAppearance.backgroundColor = UIColor(named: "tab_bar_color")
         tabBarAppearance.tintColor = .white
-    
-    }
-}
-
-extension MainTabBarController {
-    func setupTabBarItemFor(_ viewController: UIViewController, image: UIImage) {
-        viewController.tabBarItem.image = image.withRenderingMode(UIImage.RenderingMode.alwaysOriginal)
-        viewController.tabBarItem.title = nil
+        tabBarAppearance.unselectedItemTintColor = .lightGray
     }
 }

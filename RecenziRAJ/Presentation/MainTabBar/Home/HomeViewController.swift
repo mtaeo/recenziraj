@@ -71,7 +71,7 @@ final class HomeViewController: BaseViewController<HomeViewModel> {
 
 private extension HomeViewController {
     func setupSelf() {
-        view.backgroundColor = .white
+        view.backgroundColor = UIColor(named: "background_color")
     }
     
     func addSubviews() {

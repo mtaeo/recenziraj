@@ -9,6 +9,7 @@ import Foundation
 
 final class ProfileViewModel: BaseViewModel {
     
+    
     var onLogoutButtonPressed: (() -> Void)?
     
     private let authService: AuthService
@@ -16,5 +17,10 @@ final class ProfileViewModel: BaseViewModel {
     init(authService: AuthService) {
         self.authService = authService
     }
+    
+    func getUserEmail() -> String? {
+        authService.currentUser?.email
+    }
+    
 }
 

@@ -28,13 +28,13 @@ final class LoginViewController: BaseViewController<LoginViewModel> {
         
     private lazy var backgroundView: UIView = {
         let view = UIView()
-        view.backgroundColor = .white
+        view.backgroundColor = UIColor(named: "background_color")
         return view
     }()
     
     private lazy var contentView: UIView = {
         let view = UIView()
-        view.backgroundColor = .systemCyan
+        view.backgroundColor = UIColor(named: "tab_bar_color")
         view.layer.cornerRadius = Constants.contentCornerRadius
         view.layer.masksToBounds = true
         view.clipsToBounds = true
@@ -45,7 +45,6 @@ final class LoginViewController: BaseViewController<LoginViewModel> {
         let view = UIView()
         view.backgroundColor = .white
         view.layer.cornerRadius = Constants.contentCornerRadius
-        view.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
         view.layer.masksToBounds = true
         view.clipsToBounds = true
         return view
@@ -119,11 +118,11 @@ final class LoginViewController: BaseViewController<LoginViewModel> {
 
 private extension LoginViewController {
     func setupSelf() {
-        view.backgroundColor = .systemGray3
+        view.backgroundColor = UIColor(named: "tab_bar_color")
         navigationController?.navigationBar.isHidden = true
 
-        inputContentView.layer.borderWidth = 3
-        inputContentView.layer.borderColor = UIColor.systemCyan.cgColor
+        inputContentView.layer.borderWidth = 5
+        inputContentView.layer.borderColor = UIColor(named: "tab_bar_color")?.cgColor
         
         emailTextField.setupWith(title: Constants.emailLabel, placeholder: Constants.emailPlaceholderLabel, image: getImage(isValid: false))
         emailTextField.textField.delegate = self
@@ -269,7 +268,7 @@ extension LoginViewController: UITextFieldDelegate {
                 self?.passwordTextField.setRightImage(self?.getImage(isValid: isPasswordValid))
             }
             loginButton.isEnabled = (isEmailValid && isPasswordValid)
-            loginButton.backgroundColor = loginButton.isEnabled ? .systemCyan.withAlphaComponent(0.8) : .black.withAlphaComponent(0.2)
+            loginButton.backgroundColor = loginButton.isEnabled ? UIColor(named: "tab_bar_color") : UIColor(named: "tab_bar_color")?.withAlphaComponent(0.3)
         case .busy:
             startSpinner()
             print("Loading...")

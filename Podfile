@@ -7,6 +7,9 @@ target 'RecenziRAJ' do
 
   # Pods for RecenziRAJ
   pod 'SnapKit', '~> 5.6.0'
+  pod 'FirebaseCore'
   pod 'FirebaseAuth'
+  pod 'FirebaseFirestore'
+  pod 'FirebaseStorage'
   pod 'lottie-ios'
 end

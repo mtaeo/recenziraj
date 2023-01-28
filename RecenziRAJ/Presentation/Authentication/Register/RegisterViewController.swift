@@ -30,13 +30,13 @@ final class RegisterViewController: BaseViewController<RegisterViewModel> {
     
     private lazy var backgroundView: UIView = {
         let view = UIView()
-        view.backgroundColor = .white
+        view.backgroundColor = UIColor(named: "background_color")
         return view
     }()
     
     private lazy var contentView: UIView = {
         let view = UIView()
-        view.backgroundColor = .systemCyan
+        view.backgroundColor = UIColor(named: "tab_bar_color")
         view.layer.cornerRadius = Constants.contentCornerRadius
         view.layer.masksToBounds = true
         view.clipsToBounds = true
@@ -140,10 +140,11 @@ final class RegisterViewController: BaseViewController<RegisterViewModel> {
 
 private extension RegisterViewController {
     func setupSelf() {
-        view.backgroundColor = .systemGray3
-        
-        inputContentView.layer.borderWidth = 3
-        inputContentView.layer.borderColor = UIColor.systemCyan.cgColor
+        view.backgroundColor = UIColor(named: "tab_bar_color")
+        navigationController?.navigationBar.isHidden = true
+
+        inputContentView.layer.borderWidth = 5
+        inputContentView.layer.borderColor = UIColor(named: "tab_bar_color")?.cgColor
         
         emailTextField.setupWith(title: Constants.emailLabel, placeholder: Constants.emailPlaceholderLabel, image: getImage(isValid: false))
         emailTextField.textField.delegate = self
@@ -309,7 +310,7 @@ extension RegisterViewController: UITextFieldDelegate {
                 self?.repeatPasswordTextField.setRightImage(self?.getImage(isValid: isRepeatPasswordValid))
             }
             registerButton.isEnabled = (isEmailValid && isPasswordValid && isRepeatPasswordValid)
-            registerButton.backgroundColor = registerButton.isEnabled ? .systemCyan.withAlphaComponent(0.8) : .black.withAlphaComponent(0.2)
+            registerButton.backgroundColor = registerButton.isEnabled ? UIColor(named: "tab_bar_color") : UIColor(named: "tab_bar_color")?.withAlphaComponent(0.3)
         case .busy:
             startSpinner()
             print("Loading...")

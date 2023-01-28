@@ -20,7 +20,6 @@ final class TextFieldView: UIView {
     
     private lazy var titleLabel: UILabel = {
         let label = UILabel()
-//        label.font = .comicBold20
         label.textColor = .black
         return label
     }()
@@ -29,7 +28,6 @@ final class TextFieldView: UIView {
         let textField = UITextField()
         textField.autocapitalizationType = .none
         textField.keyboardType = .emailAddress
-//        textField.font = .comicRegular18
         textField.resignFirstResponder()
         textField.layer.backgroundColor = UIColor.white.cgColor
         textField.layer.shadowOffset = CGSize(width: 0, height: 1.0)
@@ -84,7 +82,7 @@ private extension TextFieldView {
 }
 
 extension TextFieldView {
-    func setupWith(title: String, placeholder: String, image: UIImage, secureText: Bool = false) {
+    func setupWith(title: String, placeholder: String, image: UIImage? = nil, secureText: Bool = false) {
         titleLabel.text = title
         textField.placeholder = placeholder
         textField.isSecureTextEntry = secureText
