@@ -132,6 +132,12 @@ private extension LoginViewController {
         inputStackView.setCustomSpacing(60, after: forgotPasswordButton)
         inputStackView.setCustomSpacing(60, after: loginButton)
         viewModel.onStateChange = setState
+        
+        // TODO: delete
+        emailTextField.textField.text = "test@test.com"
+        passwordTextField.textField.text = "test1234"
+        viewModel.validateEmail(emailTextField.textField.text)
+        viewModel.validatePassword(passwordTextField.textField.text)
     }
     
     func addSubviews() {

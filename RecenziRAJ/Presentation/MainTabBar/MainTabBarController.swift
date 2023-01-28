@@ -38,9 +38,9 @@ final class MainTabBarController: UITabBarController {
 private extension MainTabBarController {
     func setupSelf() {
         let tabBarAppearance = UITabBar.appearance()
-        tabBarAppearance.isTranslucent = false
+        tabBarAppearance.isTranslucent = true
         tabBarAppearance.backgroundColor = .systemCyan
-        tabBarAppearance.tintColor = .red
+        tabBarAppearance.tintColor = .white
     
     }
 }

@@ -18,23 +18,40 @@ final class HomeViewController: BaseViewController<HomeViewModel> {
         let stackView = UIStackView()
         stackView.axis = .vertical
         stackView.alignment = .center
-        stackView.distribution = .equalSpacing
+        stackView.distribution = .fill
         stackView.spacing = 20
         return stackView
     }()
     
-    private lazy var imageView: UIImageView = {
+    private lazy var headlineLabel: UILabel = {
+        let label = UILabel()
+        label.text = "RecenziRAJ"
+        label.font = UIFont.systemFont(ofSize: 48)
+        label.backgroundColor = .red
+        return label
+    }()
+    
+    private lazy var itemImageView: UIImageView = {
         let imageView = UIImageView()
+        imageView.backgroundColor = .green
         return imageView
     }()
     
-    private lazy var textView: UILabel = {
-        let textView = UILabel()
-        textView.text = "TextView test"
-        textView.backgroundColor = .red
-        return textView
+    private lazy var sublineLabel: UILabel = {
+        let label = UILabel()
+        label.text = "Take a picture of a product you want to see reviews for"
+        label.font = UIFont.systemFont(ofSize: 28)
+        label.numberOfLines = 0
+        label.backgroundColor = .systemYellow
+        return label
     }()
     
+    private lazy var classificationResultLabel: UILabel = {
+        let label = UILabel()
+        label.text = "None"
+        return label
+    }()
+
     private lazy var takeImageButton: UIButton = {
         let button = UIButton()
         button.setImage(UIImage(systemName: "camera.fill"), for: .normal)
@@ -58,21 +75,32 @@ private extension HomeViewController {
     }
     
     func addSubviews() {
-        containerStackView.addArrangedSubview(imageView)
-        containerStackView.addArrangedSubview(textView)
+        containerStackView.addArrangedSubview(headlineLabel)
+        containerStackView.addArrangedSubview(itemImageView)
+        containerStackView.addArrangedSubview(sublineLabel)
         containerStackView.addArrangedSubview(takeImageButton)
         view.addSubview(containerStackView)
     }
     
     func makeConstraints() {
         containerStackView.snp.makeConstraints {
-            $0.center.equalToSuperview()
-            $0.size.equalTo(300)
+            $0.top.equalTo(view.safeAreaLayoutGuide.snp.top)
+            $0.leading.trailing.equalToSuperview()
+            $0.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom)
         }
         
-        textView.snp.makeConstraints {
-            $0.height.equalTo(30)
+        itemImageView.snp.makeConstraints {
             $0.leading.trailing.equalToSuperview()
+        }
+        
+        headlineLabel.snp.makeConstraints {
+//            $0.height.equalTo(30)
+            $0.leading.trailing.equalToSuperview()
+        }
+        
+        takeImageButton.snp.makeConstraints {
+            $0.height.equalTo(100)
+            $0.width.equalToSuperview()
         }
         
     }
@@ -84,14 +112,15 @@ private extension HomeViewController {
 
 extension HomeViewController: ImagePickerDelegate {
     func didSelect(image: UIImage?) {
-        imageView.image = image
+        itemImageView.image = image
         
         if let image = image {
             viewModel.updateClassifications(for: image) { [weak self] classifications in
                 if let classifications = classifications {
                     self?.viewModel.nicePrint(classifications)
-                    self?.textView.text = "\(classifications.first?.identifier ?? "") ---> \(classifications.first?.confidence.rounded())"
+                    self?.classificationResultLabel.text = "\(classifications.first?.identifier ?? "") ---> \(classifications.first?.confidence.rounded())"
                 } else {
+                    self?.classificationResultLabel.text = "Nothing?"
                     print("got nothing")
                 }
 

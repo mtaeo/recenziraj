@@ -68,8 +68,9 @@ private extension MainCoordinator {
         }
     }
 
-    func setupTabBarItemFor(_ viewController: UIViewController, image: UIImage) {
-        viewController.tabBarItem.image = image.withRenderingMode(UIImage.RenderingMode.alwaysOriginal)
+    func setupTabBarItemFor(_ viewController: UIViewController, image: UIImage, selectedImage: UIImage? = nil) {
+        viewController.tabBarItem.image = image.withTintColor(.gray, renderingMode: UIImage.RenderingMode.alwaysOriginal)
+        viewController.tabBarItem.selectedImage = image.withTintColor(.white, renderingMode: UIImage.RenderingMode.alwaysOriginal)
     }
 }
 
