@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		8C0D9A5D2986C47A00AFFE8A /* Classifications.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C0D9A5C2986C47A00AFFE8A /* Classifications.swift */; };
+		8C0D9A602986C79B00AFFE8A /* ItemReviewsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C0D9A5F2986C79B00AFFE8A /* ItemReviewsViewModel.swift */; };
+		8C0D9A622986C7B600AFFE8A /* ItemReviewsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C0D9A612986C7B600AFFE8A /* ItemReviewsViewController.swift */; };
+		8C0D9A652986D03300AFFE8A /* ItemReviewTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C0D9A642986D03300AFFE8A /* ItemReviewTableViewCell.swift */; };
 		8C0EA1F02907E8D0003484BA /* RecenzirajClassifier.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = 8C0EA1EF2907E8D0003484BA /* RecenzirajClassifier.mlmodel */; };
 		8C0EA1F22907F507003484BA /* ImagePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C0EA1F12907F507003484BA /* ImagePicker.swift */; };
 		8C3AA19128BFCEF70024CA30 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C3AA19028BFCEF70024CA30 /* LoginViewController.swift */; };
@@ -44,6 +48,10 @@
 		511AA7927960C8DF2ADFEF94 /* Pods-RecenziRAJ.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RecenziRAJ.release.xcconfig"; path = "Target Support Files/Pods-RecenziRAJ/Pods-RecenziRAJ.release.xcconfig"; sourceTree = "<group>"; };
 		791A2861C267D0F00341E923 /* Pods-RecenziRAJ.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RecenziRAJ.debug.xcconfig"; path = "Target Support Files/Pods-RecenziRAJ/Pods-RecenziRAJ.debug.xcconfig"; sourceTree = "<group>"; };
 		8177BEB7064AEC4EA93F84BE /* Pods_RecenziRAJ.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_RecenziRAJ.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		8C0D9A5C2986C47A00AFFE8A /* Classifications.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Classifications.swift; sourceTree = "<group>"; };
+		8C0D9A5F2986C79B00AFFE8A /* ItemReviewsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemReviewsViewModel.swift; sourceTree = "<group>"; };
+		8C0D9A612986C7B600AFFE8A /* ItemReviewsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemReviewsViewController.swift; sourceTree = "<group>"; };
+		8C0D9A642986D03300AFFE8A /* ItemReviewTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemReviewTableViewCell.swift; sourceTree = "<group>"; };
 		8C0EA1EF2907E8D0003484BA /* RecenzirajClassifier.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = RecenzirajClassifier.mlmodel; sourceTree = "<group>"; };
 		8C0EA1F12907F507003484BA /* ImagePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePicker.swift; sourceTree = "<group>"; };
 		8C3AA19028BFCEF70024CA30 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
@@ -99,6 +107,33 @@
 			path = Pods;
 			sourceTree = "<group>";
 		};
+		8C0D9A5B2986C46800AFFE8A /* Classifier */ = {
+			isa = PBXGroup;
+			children = (
+				8C0EA1EF2907E8D0003484BA /* RecenzirajClassifier.mlmodel */,
+				8C0D9A5C2986C47A00AFFE8A /* Classifications.swift */,
+			);
+			path = Classifier;
+			sourceTree = "<group>";
+		};
+		8C0D9A5E2986C79000AFFE8A /* ItemReviews */ = {
+			isa = PBXGroup;
+			children = (
+				8C0D9A632986CFF600AFFE8A /* Views */,
+				8C0D9A5F2986C79B00AFFE8A /* ItemReviewsViewModel.swift */,
+				8C0D9A612986C7B600AFFE8A /* ItemReviewsViewController.swift */,
+			);
+			path = ItemReviews;
+			sourceTree = "<group>";
+		};
+		8C0D9A632986CFF600AFFE8A /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				8C0D9A642986D03300AFFE8A /* ItemReviewTableViewCell.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
 		8C6953BC28BA85670071956B = {
 			isa = PBXGroup;
 			children = (
@@ -120,7 +155,7 @@
 		8C6953C728BA85670071956B /* RecenziRAJ */ = {
 			isa = PBXGroup;
 			children = (
-				8C0EA1EF2907E8D0003484BA /* RecenzirajClassifier.mlmodel */,
+				8C0D9A5B2986C46800AFFE8A /* Classifier */,
 				8CB98A1F28CA80E70070EA0A /* Extensions */,
 				8C6953DF28BA94F90071956B /* Services */,
 				8C6953DE28BA94E70071956B /* Presentation */,
@@ -211,6 +246,7 @@
 		8CB98A0E28CA4E050070EA0A /* Home */ = {
 			isa = PBXGroup;
 			children = (
+				8C0D9A5E2986C79000AFFE8A /* ItemReviews */,
 				8CE24846298604BB00FAF6B3 /* Views */,
 				8CB98A0F28CA4E190070EA0A /* HomeViewController.swift */,
 				8CB98A1128CA4E560070EA0A /* HomeViewModel.swift */,
@@ -410,6 +446,7 @@
 				8CB98A1C28CA75A80070EA0A /* MainCoordinator.swift in Sources */,
 				8C0EA1F22907F507003484BA /* ImagePicker.swift in Sources */,
 				8CE24848298604E000FAF6B3 /* ClassificationResultTableViewCell.swift in Sources */,
+				8C0D9A652986D03300AFFE8A /* ItemReviewTableViewCell.swift in Sources */,
 				8CB98A1728CA557F0070EA0A /* ProfileViewModel.swift in Sources */,
 				8CB98A2528CA8E300070EA0A /* ProfileCoordinator.swift in Sources */,
 				8CF861B628C7F25C0044B440 /* MainTabBarViewModel.swift in Sources */,
@@ -417,6 +454,7 @@
 				8CE2484529857F1000FAF6B3 /* StorageService.swift in Sources */,
 				8C0EA1F02907E8D0003484BA /* RecenzirajClassifier.mlmodel in Sources */,
 				8CB98A2328CA8DBF0070EA0A /* HomeCoordinator.swift in Sources */,
+				8C0D9A622986C7B600AFFE8A /* ItemReviewsViewController.swift in Sources */,
 				8CB98A1E28CA760F0070EA0A /* AuthCoordinator.swift in Sources */,
 				8C94717628BFBEFF00C8AAA4 /* BaseViewController.swift in Sources */,
 				8C6953E928BA97200071956B /* RegisterViewModel.swift in Sources */,
@@ -426,10 +464,12 @@
 				8C3AA19328BFCF030024CA30 /* LoginViewModel.swift in Sources */,
 				8CE77FC328BBAFD200B6B0F0 /* AuthService.swift in Sources */,
 				8CB98A1A28CA757F0070EA0A /* Coordinator.swift in Sources */,
+				8C0D9A602986C79B00AFFE8A /* ItemReviewsViewModel.swift in Sources */,
 				8C6953E728BA97150071956B /* RegisterViewController.swift in Sources */,
 				8C6953C928BA85670071956B /* AppDelegate.swift in Sources */,
 				8CB98A1028CA4E190070EA0A /* HomeViewController.swift in Sources */,
 				8CF861B428C7F2440044B440 /* MainTabBarController.swift in Sources */,
+				8C0D9A5D2986C47A00AFFE8A /* Classifications.swift in Sources */,
 				8C6953CB28BA85670071956B /* SceneDelegate.swift in Sources */,
 				8C3AA19128BFCEF70024CA30 /* LoginViewController.swift in Sources */,
 				8CB98A2128CA80F30070EA0A /* UIViewController+App.swift in Sources */,

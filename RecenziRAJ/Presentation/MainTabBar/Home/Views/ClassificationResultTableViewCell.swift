@@ -23,14 +23,15 @@ final class ClassificationResultTableViewCell: UITableViewCell {
     
     private lazy var itemImageView: UIImageView = {
         let imageView = UIImageView()
-        imageView.image = UIImage(systemName: "pencil")
+        imageView.image = UIImage(named: "placeholder")
+        imageView.contentMode = .scaleAspectFit
         return imageView
     }()
     
     private lazy var innerRightContainerStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .vertical
-        stackView.alignment = .center
+        stackView.alignment = .leading
         stackView.distribution = .fill
         stackView.spacing = 10
         return stackView
@@ -39,12 +40,16 @@ final class ClassificationResultTableViewCell: UITableViewCell {
     private lazy var itemTitleLabel: UILabel = {
         let label = UILabel()
         label.text = "Title"
+        label.font = UIFont.boldSystemFont(ofSize: 18)
+        label.numberOfLines = 0
         return label
     }()
     
-    private lazy var itemRatingLabel: UILabel = {
+    private lazy var itemPercentageLabel: UILabel = {
         let label = UILabel()
-        label.text = "4.3/5"
+        label.text = "0 %"
+        label.font = UIFont.systemFont(ofSize: 16)
+        label.numberOfLines = 0
         return label
     }()
     
@@ -64,22 +69,22 @@ final class ClassificationResultTableViewCell: UITableViewCell {
 
 extension ClassificationResultTableViewCell {
     
-    func setup(image: UIImage?, title: String?, percentage: Float) {
+    func setup(image: UIImage?, title: String?, percentage: String?) {
         itemImageView.image = image
         itemTitleLabel.text = title
-        itemRatingLabel.text = "\(percentage) %"
+        itemPercentageLabel.text = percentage
     }
     
 }
 
 private extension ClassificationResultTableViewCell {
     func setupSelf() {
-
+        contentView.backgroundColor = UIColor(named: "background_color")
     }
     
     func addSubviews() {
         innerRightContainerStackView.addArrangedSubview(itemTitleLabel)
-        innerRightContainerStackView.addArrangedSubview(itemRatingLabel)
+        innerRightContainerStackView.addArrangedSubview(itemPercentageLabel)
         containerStackView.addArrangedSubview(itemImageView)
         containerStackView.addArrangedSubview(innerRightContainerStackView)
         contentView.addSubview(containerStackView)
@@ -91,7 +96,10 @@ private extension ClassificationResultTableViewCell {
         }
         
         itemImageView.snp.makeConstraints {
-            $0.size.equalTo(50)
+            $0.size.equalTo(75)
+            $0.leading.equalTo(containerStackView.snp.leading).inset(10)
+            $0.top.equalTo(containerStackView.snp.top).inset(10)
+            $0.bottom.equalTo(containerStackView.snp.bottom).inset(10)
         }
     }
 }

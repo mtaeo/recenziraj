@@ -29,6 +29,29 @@ private extension HomeCoordinator {
         let homeViewModel = HomeViewModel(authService: authService)
         let homeViewController = HomeViewController(viewModel: homeViewModel)
         
+        homeViewModel.onDidTapClassificationItem = { itemNameEnum in
+            self.presentItemReviewsViewController(itemNameEnum)
+        }
+        
+        homeViewModel.showAlert = { title, message, actionTitle in
+            if homeViewController.presentedViewController == nil {
+                homeViewController.present(self.showAlert(title: title, message: message, actionTitle: actionTitle), animated: true, completion: nil)
+            }
+        }
+        
         navigationController.setViewControllers([homeViewController], animated: false)
+    }
+    
+    func presentItemReviewsViewController(_ itemNameEnum: Classifications.ItemName) {
+        let itemReviewsViewModel = ItemReviewsViewModel(authService: authService, itemNameEnum: itemNameEnum)
+        let itemReviewsViewController = ItemReviewsViewController(viewModel: itemReviewsViewModel)
+        
+        itemReviewsViewModel.showAlert = { title, message, actionTitle in
+            if itemReviewsViewController.presentedViewController == nil {
+                itemReviewsViewController.present(self.showAlert(title: title, message: message, actionTitle: actionTitle), animated: true, completion: nil)
+            }
+        }
+        
+        navigationController.pushViewController(itemReviewsViewController, animated: true)
     }
 }

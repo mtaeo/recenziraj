@@ -65,6 +65,7 @@ final class HomeViewController: BaseViewController<HomeViewModel> {
         tableView.tableFooterView = UIView(frame: CGRect.zero)
         tableView.register(ClassificationResultTableViewCell.self, forCellReuseIdentifier: ClassificationResultTableViewCell.cellIdentifier)
         tableView.rowHeight = UITableView.automaticDimension
+        tableView.separatorStyle = .none
         return tableView
     }()
     
@@ -104,6 +105,7 @@ private extension HomeViewController {
         
         takeImageButton.imageView?.snp.makeConstraints {
             $0.height.equalTo(50)
+            $0.width.equalTo(75)
         }
         
         itemImageView.snp.makeConstraints {
@@ -114,7 +116,7 @@ private extension HomeViewController {
         
         classificationResultTableView.snp.makeConstraints {
             $0.top.equalTo(itemImageView.snp.bottom).offset(20)
-            $0.leading.trailing.equalToSuperview()
+            $0.leading.trailing.equalToSuperview().inset(10)
             $0.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom)
         }
         
@@ -159,13 +161,13 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: ClassificationResultTableViewCell.cellIdentifier, for: indexPath) as? ClassificationResultTableViewCell else { return UITableViewCell() }
-        cell.setup(image: UIImage(systemName: "house"),
-                   title: viewModel.classifications[indexPath.row].identifier,
-                   percentage: viewModel.classifications[indexPath.row].confidence)
+        cell.setup(image: UIImage(named: viewModel.getClassificationItemThumbnailName(indexPath.row)),
+                   title: viewModel.getClassificationItemName(indexPath.row),
+                   percentage: viewModel.getClassificationItemPercentage(indexPath.row))
         return cell
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        print("Did select \(indexPath.row)")
+        viewModel.didTapClassificationItem(index: indexPath.row)
     }
 }
