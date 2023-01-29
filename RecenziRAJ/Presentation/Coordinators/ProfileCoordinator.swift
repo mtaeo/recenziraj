@@ -34,6 +34,12 @@ private extension ProfileCoordinator {
             self.dismissNavigationController()
         }
         
+        profileViewModel.showAlert = { [unowned self] title, message, actionTitle in
+            if profileViewController.presentedViewController == nil {
+                profileViewController.present(self.showAlert(title: title, message: message, actionTitle: actionTitle), animated: true, completion: nil)
+            }
+        }
+        
         navigationController.setViewControllers([profileViewController], animated: false)
     }
     

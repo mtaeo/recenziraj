@@ -9,7 +9,7 @@ import Foundation
 
 final class ProfileViewModel: BaseViewModel {
     
-    
+    var showAlert: ((String?, String?, String?) -> Void)?
     var onLogoutButtonPressed: (() -> Void)?
     
     private let authService: AuthService
@@ -22,5 +22,27 @@ final class ProfileViewModel: BaseViewModel {
         authService.currentUser?.email
     }
     
+    func getUserDisplayName() -> String? {
+        authService.currentUser?.displayName
+    }
+    
+    func isUserVerified() -> Bool {
+        authService.currentUser?.isEmailVerified ?? false
+    }
+    
+    func updateDisplayName(username: String?, completion: @escaping (Error?) -> Void) {
+        guard let username = username else {
+            return
+        }
+        authService.updateDisplayName(username: username, completion: completion)
+    }
+    
+    func sendAccountVerification() {
+        authService.currentUser?.sendEmailVerification()
+    }
+    
+    func reloadCurrentUser(completion: ((Error?) -> Void)? = nil) {
+        authService.currentUser?.reload(completion: completion)
+    }
 }
 

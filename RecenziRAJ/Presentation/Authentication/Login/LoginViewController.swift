@@ -67,7 +67,7 @@ final class LoginViewController: BaseViewController<LoginViewModel> {
         let button = UIButton()
         button.setTitle(Constants.forgotPassword, for: .normal)
         button.setTitleColor(.black, for: .normal)
-//        button.titleLabel?.font = .comicRegular16
+        button.addTarget(self, action: #selector(forgotPasswordButtonTapped(_:)), for: .touchUpInside)
         return button
     }()
     
@@ -75,8 +75,7 @@ final class LoginViewController: BaseViewController<LoginViewModel> {
         let button = UIButton()
         button.setTitle(Constants.loginButton, for: .normal)
         button.setTitleColor(.white, for: .normal)
-//        button.titleLabel?.font = .comicBold24
-        button.backgroundColor = .black.withAlphaComponent(0.2)
+        button.backgroundColor = .black.withAlphaComponent(0.3)
         button.layer.cornerRadius = Constants.buttonCornerRadius
         button.layer.masksToBounds = true
         button.isEnabled = false
@@ -92,7 +91,6 @@ final class LoginViewController: BaseViewController<LoginViewModel> {
     
     private lazy var accountLabel: UILabel = {
         let label = UILabel()
-//        label.font = .comicRegular16
         label.textColor = .gray
         label.text = Constants.accountLabel
         return label
@@ -100,7 +98,6 @@ final class LoginViewController: BaseViewController<LoginViewModel> {
     
     private lazy var registerButton: UIButton = {
         let button = UIButton()
-//        button.titleLabel?.font = .comicBold16
         button.setTitleColor(.black, for: .normal)
         button.setTitle(Constants.registerLabel, for: .normal)
         button.addTarget(self, action: #selector(registerButtonTapped), for: .touchUpInside)
@@ -212,11 +209,22 @@ private extension LoginViewController {
     
     @objc func loginButtonTapped(_ sender: UITapGestureRecognizer) {
         viewModel.loginUser(email: emailTextField.textField.text ?? "", password: passwordTextField.textField.text ?? "") { [weak self] in
-            //
-            print("success")
             self?.viewModel.onSuccessfullLogin?()
         } onErrorCompletion: { errorDescription in
+            
             print(errorDescription)
+        }
+    }
+    
+    @objc func forgotPasswordButtonTapped(_ sender: UITapGestureRecognizer) {
+        viewModel.sendPasswordReset(withEmail: emailTextField.textField.text ?? "") { [weak self] error in
+            if error == nil {
+                self?.viewModel.showAlert?("Forgot Password Request",
+                                           "Please check your email for further password restoration steps.",
+                                           "Confirm")
+            } else {
+                self?.viewModel.showAlert?("Error", error?.localizedDescription, "Confirm")
+            }
         }
     }
 }
@@ -248,18 +256,21 @@ extension LoginViewController: UITextFieldDelegate {
             print("Success!")
         case .failure(type: let type):
             stopSpinner()
-            let message: String
+            let title = "Error"
+            let message: String?
+            let actionTitle = "Confirm"
+            
             switch type {
-            case .invalidEmail:
-                message = type.localizedDescription
-            case .userDisabled:
-                message = type.localizedDescription
-            case .wrongPassword:
-                message = type.localizedDescription
-            case .unknown:
-                message = type.localizedDescription
+                case .invalidEmail:
+                    message = type.errorDescription
+                case .userDisabled:
+                    message = type.errorDescription
+                case .wrongPassword:
+                    message = type.errorDescription
+                case .unknown:
+                    message = type.errorDescription
             }
-            viewModel.showAlertWithMessage?(message)
+            viewModel.showAlert?(title, message, actionTitle)
         
         case .idle(let isEmailValid, let isPasswordValid):
             stopSpinner()

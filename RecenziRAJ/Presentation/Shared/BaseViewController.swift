@@ -51,7 +51,7 @@ private extension BaseViewController {
     func makeConstraints() {
         spinnerView.snp.makeConstraints {
             $0.center.equalToSuperview()
-            $0.size.equalTo(250)
+            $0.size.equalTo(125)
         }
     }
 }

@@ -72,7 +72,6 @@ private extension MainCoordinator {
         viewController.tabBarItem.image = image.withTintColor(.lightGray, renderingMode: UIImage.RenderingMode.alwaysOriginal)
         viewController.tabBarItem.selectedImage = image.withTintColor(.white, renderingMode: UIImage.RenderingMode.alwaysOriginal)
         viewController.title = title
-        
     }
 }
 

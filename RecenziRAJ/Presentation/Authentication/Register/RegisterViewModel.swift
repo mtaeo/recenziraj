@@ -19,7 +19,8 @@ final class RegisterViewModel: BaseViewModel {
     var onStateChange: ((State) -> Void)?
     var onDidTapLogin: (() -> Void)?
     var onSuccessfullRegistration: (() -> Void)?
-    
+    var showAlert: ((String?, String?, String?) -> Void)?
+
     var state: State = .idle(isEmailValid: false, isPasswordValid: false, isRepeatPasswordValid: false) {
         didSet {
             onStateChange?(state)
@@ -43,8 +44,6 @@ final class RegisterViewModel: BaseViewModel {
             state = .idle(isEmailValid: isEmailValid, isPasswordValid: isPasswordValid, isRepeatPasswordValid: isRepeatPasswordValid)
         }
     }
-    
-    var showAlertWithMessage: ((String?) -> Void)?
     
     private let authService: AuthService
     

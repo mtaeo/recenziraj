@@ -27,4 +27,12 @@ extension Coordinator {
     func coordinatorShouldEnd() {
         shouldEnd?()
     }
+    
+    func showAlert(title: String?, message: String?, actionTitle: String?) -> UIAlertController {
+            let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
+            let confirmationAction = UIAlertAction(title: actionTitle, style: .default, handler: nil)
+            alertController.addAction(confirmationAction)
+
+            return alertController
+        }
 }

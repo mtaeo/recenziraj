@@ -15,7 +15,7 @@ enum LogInState {
 }
 
 final class LoginViewModel: BaseViewModel {
-    var showAlertWithMessage: ((String?) -> Void)?
+    var showAlert: ((String?, String?, String?) -> Void)?
     var onStateChange: ((LogInState) -> Void)?
     var onSuccessfullLogin: (() -> Void)?
     var onDidTapRegister: (() -> Void)?
@@ -68,5 +68,11 @@ extension LoginViewModel {
     func validatePassword(_ password: String?) {
         guard let password = password else { return }
         isPasswordValid = password.count > 5
+    }
+    
+    func sendPasswordReset(withEmail email: String, _ completion: ((Error?) -> ())? = nil){
+        authService.sendPasswordReset(email: email) { error in
+            completion?(error)
+        }
     }
 }

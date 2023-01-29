@@ -37,10 +37,9 @@ private extension AuthCoordinator {
             self.dismissNavigationController()
         }
         
-        loginViewModel.showAlertWithMessage = { [unowned self] message in
-            guard let message = message else { return }
+        loginViewModel.showAlert = { [unowned self] title, message, actionTitle in
             if loginViewController.presentedViewController == nil {
-                loginViewController.present(self.showAlert(message: message), animated: true, completion: nil)
+                loginViewController.present(self.showAlert(title: title, message: message, actionTitle: actionTitle), animated: true, completion: nil)
             }
         }
         
@@ -59,10 +58,9 @@ private extension AuthCoordinator {
             self.dismissNavigationController()
         }
         
-        registerViewModel.showAlertWithMessage = { message in
-            guard let message = message else { return }
+        registerViewModel.showAlert = { title, message, actionTitle in
             if registerViewController.presentedViewController == nil {
-                registerViewController.present(self.showAlert(message: message), animated: true, completion: nil)
+                registerViewController.present(self.showAlert(title: title, message: message, actionTitle: actionTitle), animated: true, completion: nil)
             }
         }
         
@@ -76,12 +74,4 @@ private extension AuthCoordinator {
             self?.coordinatorShouldEnd()
         }
     }
-    
-    func showAlert(message: String) -> UIAlertController {
-            let alertController = UIAlertController(title: "Error", message: message, preferredStyle: .alert)
-            let confirmationAction = UIAlertAction(title: "Ok", style: .default, handler: nil)
-            alertController.addAction(confirmationAction)
-
-            return alertController
-        }
 }

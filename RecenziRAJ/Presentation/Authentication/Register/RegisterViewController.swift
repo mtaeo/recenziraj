@@ -46,9 +46,11 @@ final class RegisterViewController: BaseViewController<RegisterViewModel> {
     private lazy var inputContentView: UIView = {
         let view = UIView()
         view.backgroundColor = .white
+        view.clipsToBounds = true
         view.layer.cornerRadius = Constants.contentCornerRadius
         view.layer.masksToBounds = true
-        view.clipsToBounds = true
+        view.layer.borderWidth = 5
+        view.layer.borderColor = UIColor(named: "tab_bar_color")?.cgColor
         return view
     }()
     
@@ -61,18 +63,42 @@ final class RegisterViewController: BaseViewController<RegisterViewModel> {
         return stack
     }()
     
-    private lazy var emailTextField = TextFieldView()
-    private lazy var passwordTextField = TextFieldView()
-    private lazy var repeatPasswordTextField = TextFieldView()
+    private lazy var emailTextField: TextFieldView = {
+        let textFieldView = TextFieldView()
+        textFieldView.setupWith(title: Constants.emailLabel,
+                                placeholder: Constants.emailPlaceholderLabel,
+                                image: getImage(isValid: false))
+        textFieldView.textField.delegate = self
+        return textFieldView
+    }()
+    
+    private lazy var passwordTextField: TextFieldView = {
+        let textFieldView = TextFieldView()
+        textFieldView.setupWith(title: Constants.passwordLabel,
+                                placeholder: Constants.passwordPlaceholderLabel,
+                                image: getImage(isValid: false),
+                                secureText: true)
+        textFieldView.textField.delegate = self
+        return textFieldView
+    }()
+    
+    private lazy var repeatPasswordTextField: TextFieldView = {
+        let textFieldView = TextFieldView()
+        textFieldView.setupWith(title: Constants.repeatPasswordLabel,
+                                          placeholder: Constants.repeatPasswordPlaceholderLabel,
+                                          image: getImage(isValid: false),
+                                          secureText: true)
+        textFieldView.textField.delegate = self
+        return textFieldView
+    }()
     
     private lazy var registerButton: UIButton = {
         let button = UIButton()
         button.setTitle(Constants.registerButton, for: .normal)
         button.setTitleColor(.white, for: .normal)
-//        button.titleLabel?.font = .comicBold24
         button.layer.cornerRadius = Constants.buttonCornerRadius
         button.layer.masksToBounds = true
-        button.backgroundColor = .black.withAlphaComponent(0.2)
+        button.backgroundColor = .black.withAlphaComponent(0.3)
         button.addTarget(self, action: #selector(registerButtonTapped), for: .touchUpInside)
         return button
     }()
@@ -95,7 +121,6 @@ final class RegisterViewController: BaseViewController<RegisterViewModel> {
     private lazy var orLabel: UILabel = {
         let label = UILabel()
         label.text = Constants.orLabel
-//        label.font = .comicRegular20
         label.textColor = .gray
         return label
     }()
@@ -114,7 +139,6 @@ final class RegisterViewController: BaseViewController<RegisterViewModel> {
     
     private lazy var accountLabel: UILabel = {
         let label = UILabel()
-//        label.font = .comicRegular16
         label.textColor = .gray
         label.text = Constants.accountLabel
         return label
@@ -122,7 +146,6 @@ final class RegisterViewController: BaseViewController<RegisterViewModel> {
     
     private lazy var loginButton: UIButton = {
         let button = UIButton()
-//        button.titleLabel?.font = .comicBold16
         button.setTitleColor(.black, for: .normal)
         button.setTitle(Constants.loginLabel, for: .normal)
         button.addTarget(self, action: #selector(loginButtonTapped), for: .touchUpInside)
@@ -142,16 +165,7 @@ private extension RegisterViewController {
     func setupSelf() {
         view.backgroundColor = UIColor(named: "tab_bar_color")
         navigationController?.navigationBar.isHidden = true
-
-        inputContentView.layer.borderWidth = 5
-        inputContentView.layer.borderColor = UIColor(named: "tab_bar_color")?.cgColor
         
-        emailTextField.setupWith(title: Constants.emailLabel, placeholder: Constants.emailPlaceholderLabel, image: getImage(isValid: false))
-        emailTextField.textField.delegate = self
-        passwordTextField.setupWith(title: Constants.passwordLabel, placeholder: Constants.passwordPlaceholderLabel, image: getImage(isValid: false), secureText: true)
-        passwordTextField.textField.delegate = self
-        repeatPasswordTextField.setupWith(title: Constants.repeatPasswordLabel, placeholder: Constants.repeatPasswordPlaceholderLabel, image: getImage(isValid: false), secureText: true)
-        repeatPasswordTextField.textField.delegate = self
         viewModel.onStateChange = setState
     }
     
@@ -289,18 +303,20 @@ extension RegisterViewController: UITextFieldDelegate {
             
         case .failure(type: let type):
             stopSpinner()
-            let message: String
+            let title = "Error"
+            let message: String?
+            let actionTitle = "Confirm"
             switch type {
-            case .invalidEmail:
-                message = type.localizedDescription
-            case .emailAlreadyInUse:
-                message = type.localizedDescription
-            case .weakPassword:
-                message = type.localizedDescription
-            case .unknown:
-                message = type.localizedDescription
+                case .invalidEmail:
+                    message = type.errorDescription
+                case .emailAlreadyInUse:
+                    message = type.errorDescription
+                case .weakPassword:
+                    message = type.errorDescription
+                case .unknown:
+                    message = type.errorDescription
             }
-            viewModel.showAlertWithMessage?(message)
+            viewModel.showAlert?(title, message, actionTitle)
         
         case .idle(let isEmailValid, let isPasswordValid, let isRepeatPasswordValid):
             stopSpinner()

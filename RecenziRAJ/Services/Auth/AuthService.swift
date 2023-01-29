@@ -18,6 +18,9 @@ protocol AuthServiceProtocol {
     
     func loginWithEmail(email: String, password: String, completion: @escaping (_ error: ApiError.LoginError?) -> Void)
     func registerUser(email: String, password: String, completion: @escaping (_ error: ApiError.RegisterError?) -> Void)
+    func sendPasswordReset(email: String, _ completion: ((Error?) -> ())?)
+    func updateDisplayName(username: String, completion: @escaping (Error?) -> Void)
+    func logoutUser()
 }
 
 final class AuthService: AuthServiceProtocol {
@@ -72,9 +75,22 @@ final class AuthService: AuthServiceProtocol {
                 }
             } else {
                 self?.currentUser = self?.auth.currentUser
+                self?.currentUser?.sendEmailVerification()
                 signUpError = nil
             }
             completion(signUpError)
+        }
+    }
+    
+    func sendPasswordReset(email: String, _ completion: ((Error?) -> ())? = nil) {
+        auth.sendPasswordReset(withEmail: email, completion: completion)
+    }
+    
+    func updateDisplayName(username: String, completion: @escaping (Error?) -> Void) {
+        let changeRequest = auth.currentUser?.createProfileChangeRequest()
+        changeRequest?.displayName = username
+        changeRequest?.commitChanges { (error) in
+          completion(error)
         }
     }
     
@@ -86,6 +102,5 @@ final class AuthService: AuthServiceProtocol {
             print(error)
         }
     }
-    
 }
 
