@@ -15,6 +15,7 @@ final class MainCoordinator: NSObject, Coordinator {
     private var viewController: UIViewController
     private var mainTabBarViewController: MainTabBarController?
     private let authService = AuthService()
+    private let storageService = StorageService()
     
     init(viewController: UIViewController) {
         childCoordinators = [Coordinator]()
@@ -50,7 +51,9 @@ private extension MainCoordinator {
         setupTabBarItemFor(homeNavigationController, image: UIImage(systemName: "house")!, title: "Home")
 
         let profileNavigationController = UINavigationController()
-        let profileCoordinator = ProfileCoordinator(navigationController: profileNavigationController, authService: authService)
+        let profileCoordinator = ProfileCoordinator(navigationController: profileNavigationController,
+                                                    authService: authService,
+                                                    storageService: storageService)
         push(profileCoordinator)
         setupTabBarItemFor(profileNavigationController, image: UIImage(systemName: "person.circle")!, title: "Profile")
         

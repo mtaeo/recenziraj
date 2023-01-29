@@ -13,10 +13,12 @@ final class ProfileCoordinator: NSObject, Coordinator {
     
     private var navigationController: UINavigationController
     private let authService: AuthService
+    private let storageService: StorageService
     
-    init(navigationController: UINavigationController, authService: AuthService) {
+    init(navigationController: UINavigationController, authService: AuthService, storageService: StorageService) {
         self.navigationController = navigationController
         self.authService = authService
+        self.storageService = storageService
     }
     
     func start() {
@@ -26,7 +28,7 @@ final class ProfileCoordinator: NSObject, Coordinator {
 
 private extension ProfileCoordinator {
     func setViewController() {
-        let profileViewModel = ProfileViewModel(authService: authService)
+        let profileViewModel = ProfileViewModel(authService: authService, storageService: storageService)
         let profileViewController = ProfileViewController(viewModel: profileViewModel)
         
         profileViewModel.onLogoutButtonPressed = {

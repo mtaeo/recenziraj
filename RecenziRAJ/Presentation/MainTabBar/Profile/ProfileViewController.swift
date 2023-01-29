@@ -9,6 +9,11 @@ import UIKit
 
 final class ProfileViewController: BaseViewController<ProfileViewModel> {
     
+    private lazy var imagePicker: ImagePicker = {
+        let imagePicker = ImagePicker(presentationController: self, delegate: self)
+        return imagePicker
+    }()
+    
     private lazy var profileContainerView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .vertical
@@ -122,6 +127,7 @@ final class ProfileViewController: BaseViewController<ProfileViewModel> {
         setupSelf()
         addSubviews()
         makeConstraints()
+        fetchAndSetupProfileImage()
     }
     
     override func viewDidLayoutSubviews() {
@@ -187,8 +193,8 @@ private extension ProfileViewController {
         }
     }
     
-    @objc func submitProfileImageButtonPressed() {
-        print("PRESSED  PROFILE IMAGE SUBMIT")
+    @objc func submitProfileImageButtonPressed(_ sender: UIButton) {
+        imagePicker.present(from: sender)
     }
     
     @objc func saveUserInfoChangesButtonPressed() {
@@ -238,4 +244,36 @@ private extension ProfileViewController {
             verificationStatusContainerView.addArrangedSubview(verifyAccountButton)
         }
     }
+    
+    func fetchAndSetupProfileImage() {
+        viewModel.downloadProfileImage { [weak self] data, error in
+            if let data = data {
+                self?.profileImageView.image = UIImage.init(data: data)
+            }
+        }
+    }
+}
+
+extension ProfileViewController: ImagePickerDelegate {
+    
+    func didSelect(image: UIImage?) {
+        if let image = image {
+            viewModel.uploadProfileImage(image) { [weak self] metadata, error in
+                print(metadata)
+                print(error)
+                if error != nil {
+                    self?.viewModel.showAlert?("Error",
+                                               "There was an erorr while trying to upload your profile picture.",
+                                               "Confirm")
+                } else {
+                    self?.profileImageView.image = image
+                }
+            }
+        } else {
+            viewModel.showAlert?("Error",
+                                "There was an error while selecting your image. Please try again.",
+                                "Confirm")
+        }
+    }
+    
 }

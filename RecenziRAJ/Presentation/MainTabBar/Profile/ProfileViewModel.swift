@@ -5,7 +5,8 @@
 //  Created by Mateo on 08.09.2022..
 //
 
-import Foundation
+import UIKit
+import FirebaseStorage
 
 final class ProfileViewModel: BaseViewModel {
     
@@ -13,9 +14,11 @@ final class ProfileViewModel: BaseViewModel {
     var onLogoutButtonPressed: (() -> Void)?
     
     private let authService: AuthService
+    private let storageService: StorageService
     
-    init(authService: AuthService) {
+    init(authService: AuthService, storageService: StorageService) {
         self.authService = authService
+        self.storageService = storageService
     }
     
     func getUserEmail() -> String? {
@@ -43,6 +46,22 @@ final class ProfileViewModel: BaseViewModel {
     
     func reloadCurrentUser(completion: ((Error?) -> Void)? = nil) {
         authService.currentUser?.reload(completion: completion)
+    }
+    
+    func uploadProfileImage(_ image: UIImage, completion: @escaping ((StorageMetadata?, Error?) -> Void)) {
+        guard let uid = authService.currentUser?.uid else {
+            completion(nil, ApiError.LoginError.unknown)
+            return
+        }
+        storageService.uploadProfileImage(uid: uid, image: image, completion: completion)
+    }
+    
+    func downloadProfileImage(completion: @escaping ((Data?, Error?) -> Void)) {
+        guard let uid = authService.currentUser?.uid else {
+            completion(nil, ApiError.LoginError.unknown)
+            return
+        }
+        storageService.downloadProfileImage(uid: uid, completion: completion)
     }
 }
 
