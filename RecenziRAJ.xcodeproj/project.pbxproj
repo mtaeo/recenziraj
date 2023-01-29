@@ -32,6 +32,7 @@
 		8CB98A2328CA8DBF0070EA0A /* HomeCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CB98A2228CA8DBF0070EA0A /* HomeCoordinator.swift */; };
 		8CB98A2528CA8E300070EA0A /* ProfileCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CB98A2428CA8E300070EA0A /* ProfileCoordinator.swift */; };
 		8CE2484529857F1000FAF6B3 /* StorageService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CE2484429857F1000FAF6B3 /* StorageService.swift */; };
+		8CE24848298604E000FAF6B3 /* ClassificationResultTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CE24847298604E000FAF6B3 /* ClassificationResultTableViewCell.swift */; };
 		8CE77FC328BBAFD200B6B0F0 /* AuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CE77FC228BBAFD200B6B0F0 /* AuthService.swift */; };
 		8CE77FC628BBB0B400B6B0F0 /* AuthErrors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CE77FC528BBB0B400B6B0F0 /* AuthErrors.swift */; };
 		8CF861B428C7F2440044B440 /* MainTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CF861B328C7F2440044B440 /* MainTabBarController.swift */; };
@@ -70,6 +71,7 @@
 		8CB98A2228CA8DBF0070EA0A /* HomeCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeCoordinator.swift; sourceTree = "<group>"; };
 		8CB98A2428CA8E300070EA0A /* ProfileCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileCoordinator.swift; sourceTree = "<group>"; };
 		8CE2484429857F1000FAF6B3 /* StorageService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageService.swift; sourceTree = "<group>"; };
+		8CE24847298604E000FAF6B3 /* ClassificationResultTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClassificationResultTableViewCell.swift; sourceTree = "<group>"; };
 		8CE77FC228BBAFD200B6B0F0 /* AuthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthService.swift; sourceTree = "<group>"; };
 		8CE77FC528BBB0B400B6B0F0 /* AuthErrors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthErrors.swift; sourceTree = "<group>"; };
 		8CF861B328C7F2440044B440 /* MainTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabBarController.swift; sourceTree = "<group>"; };
@@ -209,6 +211,7 @@
 		8CB98A0E28CA4E050070EA0A /* Home */ = {
 			isa = PBXGroup;
 			children = (
+				8CE24846298604BB00FAF6B3 /* Views */,
 				8CB98A0F28CA4E190070EA0A /* HomeViewController.swift */,
 				8CB98A1128CA4E560070EA0A /* HomeViewModel.swift */,
 			);
@@ -250,6 +253,14 @@
 				8CE2484429857F1000FAF6B3 /* StorageService.swift */,
 			);
 			path = Storage;
+			sourceTree = "<group>";
+		};
+		8CE24846298604BB00FAF6B3 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				8CE24847298604E000FAF6B3 /* ClassificationResultTableViewCell.swift */,
+			);
+			path = Views;
 			sourceTree = "<group>";
 		};
 		8CE77FC428BBB0A300B6B0F0 /* Auth */ = {
@@ -398,6 +409,7 @@
 				8CB98A1228CA4E560070EA0A /* HomeViewModel.swift in Sources */,
 				8CB98A1C28CA75A80070EA0A /* MainCoordinator.swift in Sources */,
 				8C0EA1F22907F507003484BA /* ImagePicker.swift in Sources */,
+				8CE24848298604E000FAF6B3 /* ClassificationResultTableViewCell.swift in Sources */,
 				8CB98A1728CA557F0070EA0A /* ProfileViewModel.swift in Sources */,
 				8CB98A2528CA8E300070EA0A /* ProfileCoordinator.swift in Sources */,
 				8CF861B628C7F25C0044B440 /* MainTabBarViewModel.swift in Sources */,

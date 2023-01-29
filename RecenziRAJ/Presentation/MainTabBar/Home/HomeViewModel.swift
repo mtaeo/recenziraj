@@ -10,6 +10,10 @@ import Vision
 import UIKit
 
 final class HomeViewModel: BaseViewModel {
+    
+    var showAlert: ((String?, String?, String?) -> Void)?
+    var classifications: [VNClassificationObservation] = []
+
     private let authService: AuthService
     
     private lazy var classificationRequest: VNCoreMLRequest = {
@@ -52,11 +56,15 @@ extension HomeViewModel {
             print("\(e.identifier) + \(e.confidence)")
         }
     }
+    
+    func numberOfRows() -> Int {
+        classifications.count
+    }
 }
 
 private extension HomeViewModel {
     func processClassifications(for request: VNRequest, error: Error?) {
-        let classifications = request.results as! [VNClassificationObservation]
+        classifications = request.results as! [VNClassificationObservation]
                         
         classifications.isEmpty
             ? onClassificationSucceeded?(nil)
