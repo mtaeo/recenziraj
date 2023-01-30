@@ -11,6 +11,8 @@
 		8C0D9A602986C79B00AFFE8A /* ItemReviewsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C0D9A5F2986C79B00AFFE8A /* ItemReviewsViewModel.swift */; };
 		8C0D9A622986C7B600AFFE8A /* ItemReviewsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C0D9A612986C7B600AFFE8A /* ItemReviewsViewController.swift */; };
 		8C0D9A652986D03300AFFE8A /* ItemReviewTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C0D9A642986D03300AFFE8A /* ItemReviewTableViewCell.swift */; };
+		8C0D9A68298737EE00AFFE8A /* AddReviewViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C0D9A67298737EE00AFFE8A /* AddReviewViewModel.swift */; };
+		8C0D9A6A298737F900AFFE8A /* AddReviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C0D9A69298737F900AFFE8A /* AddReviewViewController.swift */; };
 		8C0EA1F02907E8D0003484BA /* RecenzirajClassifier.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = 8C0EA1EF2907E8D0003484BA /* RecenzirajClassifier.mlmodel */; };
 		8C0EA1F22907F507003484BA /* ImagePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C0EA1F12907F507003484BA /* ImagePicker.swift */; };
 		8C3AA19128BFCEF70024CA30 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C3AA19028BFCEF70024CA30 /* LoginViewController.swift */; };
@@ -52,6 +54,8 @@
 		8C0D9A5F2986C79B00AFFE8A /* ItemReviewsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemReviewsViewModel.swift; sourceTree = "<group>"; };
 		8C0D9A612986C7B600AFFE8A /* ItemReviewsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemReviewsViewController.swift; sourceTree = "<group>"; };
 		8C0D9A642986D03300AFFE8A /* ItemReviewTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemReviewTableViewCell.swift; sourceTree = "<group>"; };
+		8C0D9A67298737EE00AFFE8A /* AddReviewViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddReviewViewModel.swift; sourceTree = "<group>"; };
+		8C0D9A69298737F900AFFE8A /* AddReviewViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddReviewViewController.swift; sourceTree = "<group>"; };
 		8C0EA1EF2907E8D0003484BA /* RecenzirajClassifier.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = RecenzirajClassifier.mlmodel; sourceTree = "<group>"; };
 		8C0EA1F12907F507003484BA /* ImagePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePicker.swift; sourceTree = "<group>"; };
 		8C3AA19028BFCEF70024CA30 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
@@ -119,6 +123,7 @@
 		8C0D9A5E2986C79000AFFE8A /* ItemReviews */ = {
 			isa = PBXGroup;
 			children = (
+				8C0D9A66298737E100AFFE8A /* AddReview */,
 				8C0D9A632986CFF600AFFE8A /* Views */,
 				8C0D9A5F2986C79B00AFFE8A /* ItemReviewsViewModel.swift */,
 				8C0D9A612986C7B600AFFE8A /* ItemReviewsViewController.swift */,
@@ -132,6 +137,15 @@
 				8C0D9A642986D03300AFFE8A /* ItemReviewTableViewCell.swift */,
 			);
 			path = Views;
+			sourceTree = "<group>";
+		};
+		8C0D9A66298737E100AFFE8A /* AddReview */ = {
+			isa = PBXGroup;
+			children = (
+				8C0D9A67298737EE00AFFE8A /* AddReviewViewModel.swift */,
+				8C0D9A69298737F900AFFE8A /* AddReviewViewController.swift */,
+			);
+			path = AddReview;
 			sourceTree = "<group>";
 		};
 		8C6953BC28BA85670071956B = {
@@ -466,8 +480,10 @@
 				8CB98A1A28CA757F0070EA0A /* Coordinator.swift in Sources */,
 				8C0D9A602986C79B00AFFE8A /* ItemReviewsViewModel.swift in Sources */,
 				8C6953E728BA97150071956B /* RegisterViewController.swift in Sources */,
+				8C0D9A6A298737F900AFFE8A /* AddReviewViewController.swift in Sources */,
 				8C6953C928BA85670071956B /* AppDelegate.swift in Sources */,
 				8CB98A1028CA4E190070EA0A /* HomeViewController.swift in Sources */,
+				8C0D9A68298737EE00AFFE8A /* AddReviewViewModel.swift in Sources */,
 				8CF861B428C7F2440044B440 /* MainTabBarController.swift in Sources */,
 				8C0D9A5D2986C47A00AFFE8A /* Classifications.swift in Sources */,
 				8C6953CB28BA85670071956B /* SceneDelegate.swift in Sources */,

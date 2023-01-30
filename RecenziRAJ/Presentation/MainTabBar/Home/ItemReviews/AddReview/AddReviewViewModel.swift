@@ -1,13 +1,12 @@
 //
-//  ItemReviewsViewModel.swift
+//  AddReviewViewModel.swift
 //  RecenziRAJ
 //
-//  Created by Mateo on 29.01.2023..
+//  Created by Mateo on 30.01.2023..
 //
 
-final class ItemReviewsViewModel: BaseViewModel {
+final class AddReviewViewModel: BaseViewModel {
     
-    var onDidTapAddReview: (() -> Void)?
     var showAlert: ((String?, String?, String?) -> Void)?
     let itemNameEnum: Classifications.ItemName
     

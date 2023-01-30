@@ -52,6 +52,23 @@ private extension HomeCoordinator {
             }
         }
         
+        itemReviewsViewModel.onDidTapAddReview = {
+            self.presentAddReviewViewController(itemReviewsViewModel.itemNameEnum)
+        }
+        
         navigationController.pushViewController(itemReviewsViewController, animated: true)
+    }
+    
+    func presentAddReviewViewController(_ itemNameEnum: Classifications.ItemName) {
+        let addReviewViewModel = AddReviewViewModel(authService: authService, itemNameEnum: itemNameEnum)
+        let addReviewViewController = AddReviewViewController(viewModel: addReviewViewModel)
+        
+        addReviewViewModel.showAlert = { title, message, actionTitle in
+            if addReviewViewController.presentedViewController == nil {
+                addReviewViewController.present(self.showAlert(title: title, message: message, actionTitle: actionTitle), animated: true, completion: nil)
+            }
+        }
+        
+        navigationController.pushViewController(addReviewViewController, animated: true)
     }
 }

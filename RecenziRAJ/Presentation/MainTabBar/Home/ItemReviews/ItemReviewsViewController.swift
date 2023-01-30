@@ -58,6 +58,18 @@ final class ItemReviewsViewController: BaseViewController<ItemReviewsViewModel> 
         label.numberOfLines = 0
         return label
     }()
+    
+    private lazy var addReviewButton: UIButton = {
+        let button = UIButton()
+        button.setTitle("Add Review", for: .normal)
+        button.setTitleColor(.white, for: .normal)
+        button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 18)
+        button.backgroundColor = UIColor(named: "tab_bar_color")
+        button.layer.cornerRadius = 15
+        button.layer.masksToBounds = true
+        button.addTarget(self, action: #selector(addReviewButtonTapped(_:)), for: .touchUpInside)
+        return button
+    }()
 
     private lazy var itemReviewsTableView: UITableView = {
         let tableView = UITableView()
@@ -71,7 +83,6 @@ final class ItemReviewsViewController: BaseViewController<ItemReviewsViewModel> 
         tableView.rowHeight = UITableView.automaticDimension
         return tableView
     }()
-    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -90,10 +101,10 @@ private extension ItemReviewsViewController {
     }
     
     func addSubviews() {
+        itemContainerStackView.addArrangedSubview(itemImageView)
         innerRightItemContainerStackView.addArrangedSubview(itemNameLabel)
         innerRightItemContainerStackView.addArrangedSubview(itemRatingLabel)
-        containerStackView.addArrangedSubview(innerRightItemContainerStackView)
-        itemContainerStackView.addArrangedSubview(itemImageView)
+        innerRightItemContainerStackView.addArrangedSubview(addReviewButton)
         itemContainerStackView.addArrangedSubview(innerRightItemContainerStackView)
         containerStackView.addArrangedSubview(itemContainerStackView)
         containerStackView.addArrangedSubview(itemReviewsTableView)
@@ -111,16 +122,25 @@ private extension ItemReviewsViewController {
         itemImageView.snp.makeConstraints {
             $0.size.equalTo(150)
         }
+    
+        addReviewButton.snp.makeConstraints {
+            $0.leading.trailing.equalToSuperview()
+            $0.height.equalTo(50)
+        }
         
         itemContainerStackView.snp.makeConstraints {
             $0.trailing.equalToSuperview()
         }
         
         itemReviewsTableView.snp.makeConstraints {
-//            $0.top.equalTo(itemContainerStackView.snp.bottom)
             $0.leading.trailing.equalToSuperview()
-            $0.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom)
+            $0.bottom.equalToSuperview()
         }
+
+    }
+    
+    @objc func addReviewButtonTapped(_ sender: UIButton) {
+        viewModel.onDidTapAddReview?()
     }
 }
 
@@ -133,6 +153,7 @@ extension ItemReviewsViewController: UITableViewDelegate, UITableViewDataSource 
         guard let cell = tableView.dequeueReusableCell(withIdentifier: ItemReviewTableViewCell.cellIdentifier, for: indexPath) as? ItemReviewTableViewCell else {
             return ItemReviewTableViewCell()
         }
+        cell.setup()
         return cell
     }
 }
