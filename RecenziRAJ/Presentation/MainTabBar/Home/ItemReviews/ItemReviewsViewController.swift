@@ -4,7 +4,7 @@
 //
 //  Created by Mateo on 29.01.2023..
 //
-
+import Kingfisher
 import UIKit
 import SnapKit
 
@@ -78,7 +78,7 @@ final class ItemReviewsViewController: BaseViewController<ItemReviewsViewModel> 
         tableView.showsVerticalScrollIndicator = true
         tableView.backgroundColor = UIColor(named: "background_color")
         tableView.bounces = true
-        tableView.tableFooterView = UIView(frame: CGRect.zero)
+        tableView.isHidden = true
         tableView.register(ItemReviewTableViewCell.self, forCellReuseIdentifier: ItemReviewTableViewCell.cellIdentifier)
         tableView.rowHeight = UITableView.automaticDimension
         return tableView
@@ -90,6 +90,15 @@ final class ItemReviewsViewController: BaseViewController<ItemReviewsViewModel> 
         setupSelf()
         addSubviews()
         makeConstraints()
+    }
+    
+    override func viewDidLayoutSubviews() {
+        startSpinner()
+        viewModel.fetchItemReviews { [weak self] itemReviews, error in
+            self?.itemReviewsTableView.isHidden = false
+            self?.itemReviewsTableView.reloadData()
+            self?.stopSpinner()
+        }
     }
 
 
@@ -145,15 +154,30 @@ private extension ItemReviewsViewController {
 }
 
 extension ItemReviewsViewController: UITableViewDelegate, UITableViewDataSource {
+    
+    func numberOfSections(in tableView: UITableView) -> Int {
+        1
+    }
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        10
+        let itemsCount = viewModel.getItemReviewsTableRowsCount()
+
+        itemsCount == 0
+        ? itemReviewsTableView.setEmptyMessage("No reviews for this product as of yet.")
+        : itemReviewsTableView.restore()
+        
+        return itemsCount
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: ItemReviewTableViewCell.cellIdentifier, for: indexPath) as? ItemReviewTableViewCell else {
             return ItemReviewTableViewCell()
         }
-        cell.setup()
+        let itemReview = viewModel.getItemReview(at: indexPath.row)
+        cell.setup(itemReview: itemReview)
+        viewModel.downloadProfileImage(for: itemReview?.userUid) { data, _error in
+            cell.setupImageWithData(data)
+        }
         return cell
     }
 }

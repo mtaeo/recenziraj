@@ -15,6 +15,7 @@ final class MainCoordinator: NSObject, Coordinator {
     private var viewController: UIViewController
     private var mainTabBarViewController: MainTabBarController?
     private let authService = AuthService()
+    private let userInteractionsService = UserInteractionsService()
     private let storageService = StorageService()
     
     init(viewController: UIViewController) {
@@ -46,7 +47,10 @@ private extension MainCoordinator {
     
     func showTabBar(in viewController: UIViewController) {
         let homeNavigationController = UINavigationController()
-        let homeCoordinator = HomeCoordinator(navigationController: homeNavigationController, authService: authService)
+        let homeCoordinator = HomeCoordinator(navigationController: homeNavigationController,
+                                              userInteractionsService: userInteractionsService,
+                                              storageService: storageService,
+                                              authService: authService)
         push(homeCoordinator)
         setupTabBarItemFor(homeNavigationController, image: UIImage(systemName: "house")!, title: "Home")
 

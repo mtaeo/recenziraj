@@ -14,10 +14,8 @@ protocol StorageServiceProtocol {
 
 final class StorageService: StorageServiceProtocol {
     
-    let profileImagesStorageRef = Storage.storage().reference().child("profile_images")
-    
-    private let storage = Storage.storage()
-    
+    private let profileImagesStorageRef = Storage.storage().reference().child("profile_images")
+        
     func uploadProfileImage(uid: String, image: UIImage, completion: @escaping ((StorageMetadata?, Error?) -> Void)) {
         guard let data = image.pngData() else { return }
         profileImagesStorageRef.child(uid).putData(data, metadata: nil, completion: completion)

@@ -10,6 +10,7 @@ target 'RecenziRAJ' do
   pod 'FirebaseCore'
   pod 'FirebaseAuth'
   pod 'FirebaseFirestore'
+  pod 'FirebaseDatabase'
   pod 'FirebaseStorage'
   pod 'lottie-ios'
 end

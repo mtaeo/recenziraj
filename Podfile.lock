@@ -623,6 +623,9 @@ PODS:
     - FirebaseCore (~> 9.0)
   - FirebaseCoreInternal (9.5.0):
     - "GoogleUtilities/NSData+zlib (~> 7.7)"
+  - FirebaseDatabase (9.6.0):
+    - FirebaseCore (~> 9.0)
+    - leveldb-library (~> 1.22)
   - FirebaseFirestore (9.5.0):
     - abseil/algorithm (~> 1.20211102.0)
     - abseil/base (~> 1.20211102.0)
@@ -735,6 +738,7 @@ PODS:
 DEPENDENCIES:
   - FirebaseAuth
   - FirebaseCore
+  - FirebaseDatabase
   - FirebaseFirestore
   - FirebaseStorage
   - lottie-ios
@@ -751,6 +755,7 @@ SPEC REPOS:
     - FirebaseCoreDiagnostics
     - FirebaseCoreExtension
     - FirebaseCoreInternal
+    - FirebaseDatabase
     - FirebaseFirestore
     - FirebaseStorage
     - FirebaseStorageInternal
@@ -776,6 +781,7 @@ SPEC CHECKSUMS:
   FirebaseCoreDiagnostics: 17cbf4e72b1dbd64bfdc33d4b1f07bce4f16f1d8
   FirebaseCoreExtension: e83465d1236b166d1d445bbf0e82b65acb30b73b
   FirebaseCoreInternal: 50a8e39cae8abf72d5145d07ea34c3244f70862b
+  FirebaseDatabase: 3de19e533a73d45e25917b46aafe1dd344ec8119
   FirebaseFirestore: e4136560a4bdd1de5f02bc79ccb8414325b08823
   FirebaseStorage: 1fead543a1f441c3b434c1c9f12560dd82f8b568
   FirebaseStorageInternal: 425c7dc7de44d9b7e07a9f8d6515bab0f1266b87
@@ -791,6 +797,6 @@ SPEC CHECKSUMS:
   PromisesObjC: ab77feca74fa2823e7af4249b8326368e61014cb
   SnapKit: e01d52ebb8ddbc333eefe2132acf85c8227d9c25
 
-PODFILE CHECKSUM: b4195776fcd7121bae51f8afc2d3c6bc339bb0cf
+PODFILE CHECKSUM: 23e91c1e5a13f10ab5effc77c7176cdc87a078e8
 
 COCOAPODS: 1.11.3

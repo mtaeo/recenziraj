@@ -13,10 +13,17 @@ final class HomeCoordinator: NSObject, Coordinator {
     
     private var navigationController: UINavigationController
     private let authService: AuthService
+    private let userInteractionsService: UserInteractionsService
+    private let storageService: StorageService
         
-    init(navigationController: UINavigationController, authService: AuthService) {
+    init(navigationController: UINavigationController,
+         userInteractionsService: UserInteractionsService,
+         storageService: StorageService,
+         authService: AuthService) {
         self.navigationController = navigationController
         self.authService = authService
+        self.storageService = storageService
+        self.userInteractionsService = userInteractionsService
     }
     
     func start() {
@@ -43,7 +50,10 @@ private extension HomeCoordinator {
     }
     
     func presentItemReviewsViewController(_ itemNameEnum: Classifications.ItemName) {
-        let itemReviewsViewModel = ItemReviewsViewModel(authService: authService, itemNameEnum: itemNameEnum)
+        let itemReviewsViewModel = ItemReviewsViewModel(authService: authService,
+                                                        userInteractionsService: userInteractionsService,
+                                                        storageService: storageService,
+                                                        itemNameEnum: itemNameEnum)
         let itemReviewsViewController = ItemReviewsViewController(viewModel: itemReviewsViewModel)
         
         itemReviewsViewModel.showAlert = { title, message, actionTitle in
@@ -60,7 +70,9 @@ private extension HomeCoordinator {
     }
     
     func presentAddReviewViewController(_ itemNameEnum: Classifications.ItemName) {
-        let addReviewViewModel = AddReviewViewModel(authService: authService, itemNameEnum: itemNameEnum)
+        let addReviewViewModel = AddReviewViewModel(authService: authService,
+                                                    userInteractionsService: userInteractionsService,
+                                                    itemNameEnum: itemNameEnum)
         let addReviewViewController = AddReviewViewController(viewModel: addReviewViewModel)
         
         addReviewViewModel.showAlert = { title, message, actionTitle in

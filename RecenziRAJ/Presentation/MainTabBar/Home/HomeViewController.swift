@@ -17,7 +17,7 @@ final class HomeViewController: BaseViewController<HomeViewModel> {
     private lazy var containerStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .vertical
-        stackView.alignment = .fill
+        stackView.alignment = .center
         stackView.distribution = .fill
         stackView.spacing = 20
         return stackView
@@ -42,16 +42,12 @@ final class HomeViewController: BaseViewController<HomeViewModel> {
     
     private lazy var itemImageView: UIImageView = {
         let imageView = UIImageView()
-        imageView.backgroundColor = .green
+        imageView.contentMode = .scaleAspectFill
         imageView.isHidden = true
-        imageView.setContentHuggingPriority(.required, for: .vertical)
+        imageView.isUserInteractionEnabled = true
+        imageView.isMultipleTouchEnabled = true
+        imageView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(takeImageButtonTapped)))
         return imageView
-    }()
-    
-    private lazy var classificationResultLabel: UILabel = {
-        let label = UILabel()
-        label.text = "None"
-        return label
     }()
     
     private lazy var classificationResultTableView: UITableView = {
@@ -88,8 +84,8 @@ private extension HomeViewController {
     func addSubviews() {
         containerStackView.addArrangedSubview(introductionLabel)
         containerStackView.addArrangedSubview(takeImageButton)
+        containerStackView.addArrangedSubview(itemImageView)
         view.addSubview(containerStackView)
-        view.addSubview(itemImageView)
         view.addSubview(classificationResultTableView)
     }
     
@@ -109,20 +105,20 @@ private extension HomeViewController {
         }
         
         itemImageView.snp.makeConstraints {
-            $0.top.equalTo(containerStackView.snp.bottom).offset(20)
+            $0.leading.trailing.equalToSuperview()
+            $0.height.lessThanOrEqualTo(75)
             $0.centerX.equalToSuperview()
-            $0.size.equalTo(150)
         }
         
         classificationResultTableView.snp.makeConstraints {
-            $0.top.equalTo(itemImageView.snp.bottom).offset(20)
+            $0.top.equalTo(containerStackView.snp.bottom).offset(20)
             $0.leading.trailing.equalToSuperview().inset(10)
             $0.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom)
         }
         
     }
     
-    @objc func takeImageButtonTapped(_ sender: UIButton) {
+    @objc func takeImageButtonTapped(_ sender: UIView) {
         imagePicker.present(from: sender)
     }
 }
@@ -136,18 +132,14 @@ extension HomeViewController: ImagePickerDelegate {
             itemImageView.isHidden = false
             classificationResultTableView.isHidden = false
             viewModel.updateClassifications(for: image) { [weak self] classifications in
-                if let classifications = classifications {
-                    self?.viewModel.nicePrint(classifications)
-                    self?.classificationResultLabel.text = "\(classifications.first?.identifier ?? "") ---> \(classifications.first?.confidence.rounded())"
+                if classifications != nil {
                     self?.classificationResultTableView.reloadData()
-                } else {
-                    self?.classificationResultLabel.text = "Nothing?"
                 }
                 self?.stopSpinner()
             } errorHandler: { [weak self] error in
                 self?.viewModel.showAlert?("Error",
-                                     "There was an unknown error while trying to classify your image.",
-                                     "Confirm")
+                                           "There was an unknown error while trying to classify your image.",
+                                           "Confirm")
                 self?.stopSpinner()
             }
         }
