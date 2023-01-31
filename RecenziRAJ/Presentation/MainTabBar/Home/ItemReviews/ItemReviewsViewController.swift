@@ -4,7 +4,6 @@
 //
 //  Created by Mateo on 29.01.2023..
 //
-import Kingfisher
 import UIKit
 import SnapKit
 
