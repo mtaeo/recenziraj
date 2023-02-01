@@ -130,8 +130,8 @@ private extension LoginViewController {
         viewModel.onStateChange = setState
         
         // TODO: delete
-        emailTextField.textField.text = "test@test.com"
-        passwordTextField.textField.text = "test1234"
+//        emailTextField.textField.text = "test@test.com"
+//        passwordTextField.textField.text = "test1234"
         viewModel.validateEmail(emailTextField.textField.text)
         viewModel.validatePassword(passwordTextField.textField.text)
     }
@@ -210,9 +210,8 @@ private extension LoginViewController {
     @objc func loginButtonTapped(_ sender: UITapGestureRecognizer) {
         viewModel.loginUser(email: emailTextField.textField.text ?? "", password: passwordTextField.textField.text ?? "") { [weak self] in
             self?.viewModel.onSuccessfullLogin?()
-        } onErrorCompletion: { errorDescription in
-            
-            print(errorDescription)
+        } onErrorCompletion: { [weak self] errorDescription in
+            self?.viewModel.showAlert?("Error", errorDescription, "Confirm")
         }
     }
     
@@ -253,7 +252,6 @@ extension LoginViewController: UITextFieldDelegate {
         switch state {
         case .success:
             stopSpinner()
-            print("Success!")
         case .failure(type: let type):
             stopSpinner()
             let title = "Error"
@@ -282,7 +280,6 @@ extension LoginViewController: UITextFieldDelegate {
             loginButton.backgroundColor = loginButton.isEnabled ? UIColor(named: "tab_bar_color") : UIColor(named: "tab_bar_color")?.withAlphaComponent(0.3)
         case .busy:
             startSpinner()
-            print("Loading...")
         }
     }
 }

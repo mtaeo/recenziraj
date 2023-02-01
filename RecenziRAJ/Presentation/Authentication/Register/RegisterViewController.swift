@@ -260,10 +260,9 @@ private extension RegisterViewController {
     
     @objc func registerButtonTapped() {
         viewModel.registerUser(email: emailTextField.textField.text ?? "", password: passwordTextField.textField.text ?? "") { [weak self] in
-            //
             self?.viewModel.onSuccessfullRegistration?()
-        } onErrorCompletion: { errorDescription in
-            print(errorDescription)
+        } onErrorCompletion: { [weak self] errorDescription in
+            self?.viewModel.showAlert?("Error", errorDescription, "Confirm")
         }
         
     }
@@ -329,7 +328,6 @@ extension RegisterViewController: UITextFieldDelegate {
             registerButton.backgroundColor = registerButton.isEnabled ? UIColor(named: "tab_bar_color") : UIColor(named: "tab_bar_color")?.withAlphaComponent(0.3)
         case .busy:
             startSpinner()
-            print("Loading...")
         }
     }
 }

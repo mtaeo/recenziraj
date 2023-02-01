@@ -47,7 +47,7 @@ final class Classifications {
             case .nutella:
                 return "nutella"
             case .pepsiBlueCan:
-                return"pepsi_blue_can"
+                return "pepsi_blue_can"
             case .redbullEnergyDrink:
                 return "red_bull_energy_drink"
             case .doritosNachoCheese:

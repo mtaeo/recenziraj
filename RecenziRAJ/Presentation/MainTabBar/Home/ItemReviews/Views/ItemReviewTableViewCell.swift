@@ -11,11 +11,11 @@ final class ItemReviewTableViewCell: UITableViewCell {
     
     static let cellIdentifier = "ItemReviewTableViewCell"
     
-    private lazy var profileImageView: UIImageView = {
+     lazy var profileImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.image = UIImage(named: "placeholder_profile_image")
         imageView.clipsToBounds = true
-        imageView.layer.borderWidth = 5
+        imageView.layer.borderWidth = 2
         imageView.layer.borderColor = UIColor(named: "border_color")?.cgColor
         return imageView
     }()
@@ -65,10 +65,10 @@ final class ItemReviewTableViewCell: UITableViewCell {
     
     override func prepareForReuse() {
         super.prepareForReuse()
-        isHidden = false
-        isSelected = false
-        isHighlighted = false
-        profileImageView.image = UIImage(named: "placeholder_profile_image")
+//        isHidden = false
+//        isSelected = false
+//        isHighlighted = false
+//        profileImageView.image = UIImage(named: "placeholder_profile_image")
     }
 
 }
@@ -86,6 +86,7 @@ extension ItemReviewTableViewCell {
         } else {
             profileImageView.image = UIImage(named: "placeholder_profile_image")
         }
+        setNeedsLayout()
     }
     
 }

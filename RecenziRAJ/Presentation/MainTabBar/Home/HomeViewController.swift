@@ -42,7 +42,7 @@ final class HomeViewController: BaseViewController<HomeViewModel> {
     
     private lazy var itemImageView: UIImageView = {
         let imageView = UIImageView()
-        imageView.contentMode = .scaleAspectFill
+        imageView.contentMode = .scaleAspectFit
         imageView.isHidden = true
         imageView.isUserInteractionEnabled = true
         imageView.isMultipleTouchEnabled = true

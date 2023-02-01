@@ -24,6 +24,8 @@ final class HomeViewModel: BaseViewModel {
                 self?.processClassifications(for: request, error: error)
             }
             
+            request.imageCropAndScaleOption = .scaleFill
+                        
             return request
         } catch {
             fatalError("Failed to load ML Model: \(error)")
@@ -40,7 +42,8 @@ final class HomeViewModel: BaseViewModel {
 extension HomeViewModel {
     func updateClassifications(for image: UIImage, completionHandler: @escaping ([VNClassificationObservation]?) -> Void, errorHandler: (Error) -> Void) {        
         let ciImage = CIImage(image: image)!
-        let handler = VNImageRequestHandler(ciImage: ciImage, orientation: .up)
+        let handler = VNImageRequestHandler(ciImage: ciImage.oriented(.up), orientation: .up)
+        
         
         do {
             onClassificationSucceeded = completionHandler

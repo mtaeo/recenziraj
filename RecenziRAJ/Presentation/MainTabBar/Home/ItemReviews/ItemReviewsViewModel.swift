@@ -13,9 +13,9 @@ final class ItemReviewsViewModel: BaseViewModel {
     var showAlert: ((String?, String?, String?) -> Void)?
     let itemNameEnum: Classifications.ItemName
     
-    private let authService: AuthService
+     let authService: AuthService
     private let userInteractionsService: UserInteractionsService
-    private let storageService: StorageService
+     let storageService: StorageService
     private var itemReviews: [ItemReview]?
 
     init(authService: AuthService,

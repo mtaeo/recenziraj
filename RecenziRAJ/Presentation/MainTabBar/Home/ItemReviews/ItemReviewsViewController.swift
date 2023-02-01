@@ -6,6 +6,7 @@
 //
 import UIKit
 import SnapKit
+import FirebaseStorageUI
 
 final class ItemReviewsViewController: BaseViewController<ItemReviewsViewModel> {
     
@@ -174,9 +175,10 @@ extension ItemReviewsViewController: UITableViewDelegate, UITableViewDataSource 
         }
         let itemReview = viewModel.getItemReview(at: indexPath.row)
         cell.setup(itemReview: itemReview)
-        viewModel.downloadProfileImage(for: itemReview?.userUid) { data, _error in
-            cell.setupImageWithData(data)
-        }
+//        viewModel.downloadProfileImage(for: itemReview?.userUid) { data, _error in
+//            cell.setupImageWithData(data)
+//        }
+        cell.profileImageView.sd_setImage(with: viewModel.storageService.profileImagesStorageRef.child(itemReview?.userUid ?? ""), placeholderImage: UIImage(named: "profile_image_placholder"))
         return cell
     }
 }

@@ -142,7 +142,6 @@ private extension AddReviewViewController {
         }
         viewModel.submitReview(review: review) { [weak self] error in
             if let error = error {
-                print(error)
                 self?.viewModel.showAlert?("Error", "There was an error while trying to submit your review.", "Confirm")
             } else {
                 self?.viewModel.showAlert?("Success", "Your review has been successfully submitted.", "Confirm")

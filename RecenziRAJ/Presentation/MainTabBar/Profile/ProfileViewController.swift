@@ -259,8 +259,6 @@ extension ProfileViewController: ImagePickerDelegate {
     func didSelect(image: UIImage?) {
         if let image = image {
             viewModel.uploadProfileImage(image) { [weak self] metadata, error in
-                print(metadata)
-                print(error)
                 if error != nil {
                     self?.viewModel.showAlert?("Error",
                                                "There was an erorr while trying to upload your profile picture.",
