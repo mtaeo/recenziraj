@@ -14,6 +14,8 @@ final class HomeViewModel: BaseViewModel {
     var onDidTapClassificationItem: ((Classifications.ItemName) -> Void)?
     var showAlert: ((String?, String?, String?) -> Void)?
     var classifications: [VNClassificationObservation] = []
+    
+    var afterImage: UIImage?
 
     private let authService: AuthService
     
@@ -24,7 +26,7 @@ final class HomeViewModel: BaseViewModel {
                 self?.processClassifications(for: request, error: error)
             }
             
-            request.imageCropAndScaleOption = .scaleFill
+            request.imageCropAndScaleOption = .centerCrop
                         
             return request
         } catch {
@@ -42,7 +44,7 @@ final class HomeViewModel: BaseViewModel {
 extension HomeViewModel {
     func updateClassifications(for image: UIImage, completionHandler: @escaping ([VNClassificationObservation]?) -> Void, errorHandler: (Error) -> Void) {        
         let ciImage = CIImage(image: image)!
-        let handler = VNImageRequestHandler(ciImage: ciImage.oriented(.up), orientation: .up)
+        let handler = VNImageRequestHandler(ciImage: ciImage)
         
         
         do {
@@ -92,7 +94,13 @@ private extension HomeViewModel {
     func processClassifications(for request: VNRequest, error: Error?) {
         classifications = request.results as? [VNClassificationObservation] ?? []
         classifications = filterClassifications(classifications)
-                        
+        
+//        if let results = request.results as? [VNPixelBufferObservation],
+//           let pixelBuffer = results.first?.pixelBuffer {
+//          let ciImage = CIImage(cvPixelBuffer: pixelBuffer)
+//          self.afterImage = UIImage(ciImage: ciImage)
+//        }
+        
         classifications.isEmpty
             ? onClassificationSucceeded?(nil)
             : onClassificationSucceeded?(classifications)

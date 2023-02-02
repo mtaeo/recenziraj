@@ -36,6 +36,7 @@ final class TextFieldView: UIView {
         textField.layer.shadowRadius = 0.0
         textField.rightViewMode = .always
         textField.clearButtonMode = .always
+        textField.textColor = .black
         return textField
     }()
         

@@ -166,6 +166,9 @@ private extension RegisterViewController {
         view.backgroundColor = UIColor(named: "tab_bar_color")
         navigationController?.navigationBar.isHidden = true
         
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(self.dismissKeyboard (_:)))
+        self.view.addGestureRecognizer(tapGesture)
+        
         viewModel.onStateChange = setState
     }
     
@@ -265,6 +268,11 @@ private extension RegisterViewController {
             self?.viewModel.showAlert?("Error", errorDescription, "Confirm")
         }
         
+    }
+    
+    @objc func dismissKeyboard (_ sender: UITapGestureRecognizer) {
+        passwordTextField.textField.resignFirstResponder()
+        emailTextField.textField.resignFirstResponder()
     }
     
     @objc func loginButtonTapped() {

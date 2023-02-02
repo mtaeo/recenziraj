@@ -27,7 +27,7 @@ final class ImagePicker: NSObject {
 
        self.pickerController.delegate = self
        self.pickerController.mediaTypes = ["public.image"]
-       self.pickerController.allowsEditing = false
+       self.pickerController.allowsEditing = true
    }
 
    private func action(for type: UIImagePickerController.SourceType, title: String) -> UIAlertAction? {
@@ -78,11 +78,10 @@ extension ImagePicker: UIImagePickerControllerDelegate {
 
     func imagePickerController(_ picker: UIImagePickerController,
                                      didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]) {
-        guard let image = info[.originalImage] as? UIImage else {
+        guard let image = info[.editedImage] as? UIImage else {
            return self.pickerController(picker, didSelect: nil)
        }
-        print("OVO: \(image)")
-        print("i ovo: \(CIImage(image: image))")
+
        self.pickerController(picker, didSelect: image)
    }
 }

@@ -14,15 +14,6 @@ final class HomeViewController: BaseViewController<HomeViewModel> {
         return imagePicker
     }()
     
-    private lazy var containerStackView: UIStackView = {
-        let stackView = UIStackView()
-        stackView.axis = .vertical
-        stackView.alignment = .center
-        stackView.distribution = .fill
-        stackView.spacing = 20
-        return stackView
-    }()
-    
     private lazy var introductionLabel: UILabel = {
         let label = UILabel()
         label.text = "Take a picture of a product you want to see reviews for"
@@ -35,6 +26,9 @@ final class HomeViewController: BaseViewController<HomeViewModel> {
 
     private lazy var takeImageButton: UIButton = {
         let button = UIButton()
+        button.contentHorizontalAlignment = .fill
+        button.contentVerticalAlignment = .fill
+        button.contentMode = .scaleToFill
         button.setImage(UIImage(systemName: "camera.fill")?.withTintColor(.darkGray, renderingMode: UIImage.RenderingMode.alwaysOriginal), for: .normal)
         button.addTarget(self, action: #selector(takeImageButtonTapped), for: .touchUpInside)
         return button
@@ -42,8 +36,8 @@ final class HomeViewController: BaseViewController<HomeViewModel> {
     
     private lazy var itemImageView: UIImageView = {
         let imageView = UIImageView()
-        imageView.contentMode = .scaleAspectFit
-        imageView.isHidden = true
+        imageView.contentMode = .scaleAspectFill
+        imageView.image = nil
         imageView.isUserInteractionEnabled = true
         imageView.isMultipleTouchEnabled = true
         imageView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(takeImageButtonTapped)))
@@ -82,40 +76,38 @@ private extension HomeViewController {
     }
     
     func addSubviews() {
-        containerStackView.addArrangedSubview(introductionLabel)
-        containerStackView.addArrangedSubview(takeImageButton)
-        containerStackView.addArrangedSubview(itemImageView)
-        view.addSubview(containerStackView)
+        view.addSubview(introductionLabel)
+        view.addSubview(takeImageButton)
+        view.addSubview(itemImageView)
         view.addSubview(classificationResultTableView)
+        
     }
     
     func makeConstraints() {
-        containerStackView.snp.makeConstraints {
+        introductionLabel.snp.makeConstraints {
             $0.top.equalTo(view.safeAreaLayoutGuide.snp.top)
             $0.leading.trailing.equalToSuperview().inset(20)
-        }
-        
-        takeImageButton.snp.makeConstraints {
-            $0.size.equalTo(75)
-        }
-        
-        takeImageButton.imageView?.snp.makeConstraints {
-            $0.height.equalTo(50)
-            $0.width.equalTo(75)
-        }
-        
-        itemImageView.snp.makeConstraints {
-            $0.leading.trailing.equalToSuperview()
-            $0.height.lessThanOrEqualTo(75)
             $0.centerX.equalToSuperview()
         }
         
+        takeImageButton.snp.makeConstraints {
+            $0.top.equalTo(introductionLabel.snp.bottom).offset(10)
+            $0.height.equalTo(75)
+            $0.width.equalTo(125)
+            $0.centerX.equalToSuperview()
+        }
+        
+        itemImageView.snp.makeConstraints {
+            $0.top.equalTo(takeImageButton.snp.bottomMargin)
+            $0.leading.trailing.equalToSuperview().inset(20)
+            $0.height.equalTo(100)
+        }
+        
         classificationResultTableView.snp.makeConstraints {
-            $0.top.equalTo(containerStackView.snp.bottom).offset(20)
+            $0.top.equalTo(itemImageView.snp.bottom)
             $0.leading.trailing.equalToSuperview().inset(10)
             $0.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom)
         }
-        
     }
     
     @objc func takeImageButtonTapped(_ sender: UIView) {
@@ -129,12 +121,13 @@ extension HomeViewController: ImagePickerDelegate {
         itemImageView.image = image
         
         if let image = image {
-            itemImageView.isHidden = false
-            classificationResultTableView.isHidden = false
             viewModel.updateClassifications(for: image) { [weak self] classifications in
+                let x = self?.viewModel.afterImage
                 if classifications != nil {
+                    self?.classificationResultTableView.isHidden = false
                     self?.classificationResultTableView.reloadData()
                 }
+                self?.view.layoutIfNeeded()
                 self?.stopSpinner()
             } errorHandler: { [weak self] error in
                 self?.viewModel.showAlert?("Error",

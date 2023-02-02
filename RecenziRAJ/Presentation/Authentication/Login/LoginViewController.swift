@@ -47,6 +47,8 @@ final class LoginViewController: BaseViewController<LoginViewModel> {
         view.layer.cornerRadius = Constants.contentCornerRadius
         view.layer.masksToBounds = true
         view.clipsToBounds = true
+        view.layer.borderWidth = 5
+        view.layer.borderColor = UIColor(named: "tab_bar_color")?.cgColor
         return view
     }()
     
@@ -59,9 +61,23 @@ final class LoginViewController: BaseViewController<LoginViewModel> {
         return stack
     }()
     
-    private lazy var emailTextField = TextFieldView()
+    private lazy var emailTextField: TextFieldView = {
+        let textFieldView = TextFieldView()
+        textFieldView.setupWith(title: Constants.emailLabel,
+                                placeholder: Constants.emailPlaceholderLabel,
+                                image: getImage(isValid: false))
+        textFieldView.textField.delegate = self
+        return textFieldView
+    }()
     
-    private lazy var passwordTextField = TextFieldView()
+    private lazy var passwordTextField: TextFieldView = {
+        let textFieldView = TextFieldView()
+        textFieldView.setupWith(title: Constants.passwordLabel,
+                                placeholder: Constants.passwordPlaceholderLabel,
+                                image: getImage(isValid: false), secureText: true)
+        textFieldView.textField.delegate = self
+        return textFieldView
+    }()
     
     private lazy var forgotPasswordButton: UIButton = {
         let button = UIButton()
@@ -118,20 +134,16 @@ private extension LoginViewController {
         view.backgroundColor = UIColor(named: "tab_bar_color")
         navigationController?.navigationBar.isHidden = true
 
-        inputContentView.layer.borderWidth = 5
-        inputContentView.layer.borderColor = UIColor(named: "tab_bar_color")?.cgColor
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(self.dismissKeyboard (_:)))
+        self.view.addGestureRecognizer(tapGesture)
         
-        emailTextField.setupWith(title: Constants.emailLabel, placeholder: Constants.emailPlaceholderLabel, image: getImage(isValid: false))
-        emailTextField.textField.delegate = self
-        passwordTextField.setupWith(title: Constants.passwordLabel, placeholder: Constants.passwordPlaceholderLabel, image: getImage(isValid: false), secureText: true)
-        passwordTextField.textField.delegate = self
         inputStackView.setCustomSpacing(60, after: forgotPasswordButton)
         inputStackView.setCustomSpacing(60, after: loginButton)
         viewModel.onStateChange = setState
         
         // TODO: delete
-//        emailTextField.textField.text = "test@test.com"
-//        passwordTextField.textField.text = "test1234"
+        emailTextField.textField.text = "test@test.com"
+        passwordTextField.textField.text = "test1234"
         viewModel.validateEmail(emailTextField.textField.text)
         viewModel.validatePassword(passwordTextField.textField.text)
     }
@@ -225,6 +237,11 @@ private extension LoginViewController {
                 self?.viewModel.showAlert?("Error", error?.localizedDescription, "Confirm")
             }
         }
+    }
+    
+    @objc func dismissKeyboard (_ sender: UITapGestureRecognizer) {
+        passwordTextField.textField.resignFirstResponder()
+        emailTextField.textField.resignFirstResponder()
     }
 }
 
