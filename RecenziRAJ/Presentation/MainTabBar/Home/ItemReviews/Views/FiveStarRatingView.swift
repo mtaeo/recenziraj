@@ -21,6 +21,7 @@ final class FiveStarRatingView: UIView {
     private let maxRatingValue = 5
     private var starSize: Int?
     
+    
     private lazy var contentStackView: UIStackView = {
         let stack = UIStackView()
         stack.axis = .horizontal
@@ -32,10 +33,10 @@ final class FiveStarRatingView: UIView {
     
     private lazy var starButtons: [UIButton] = generateStarButtons(max: maxRatingValue)
 
-    init(starSize: Int) {
+    init(starSize: Int, isUserInteractionEnabled: Bool = false) {
         super.init(frame: CGRect.zero)
         
-        isUserInteractionEnabled = true
+        self.isUserInteractionEnabled = isUserInteractionEnabled
         self.starSize = starSize
         addSubviews()
         makeConstraints()
@@ -105,7 +106,6 @@ private extension FiveStarRatingView {
     
     @objc func starButtonTap(_ sender: UIButton) {
         ratingValue = sender.tag
-        print(ratingValue)
         onValueChange?(ratingValue)
     }
 }

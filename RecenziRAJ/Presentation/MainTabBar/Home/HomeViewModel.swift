@@ -51,7 +51,6 @@ extension HomeViewModel {
             onClassificationSucceeded = completionHandler
             try handler.perform([classificationRequest])
         } catch {
-            print("Failed to perform classifications. \n \(error.localizedDescription)")
             errorHandler(error)
         }
     }

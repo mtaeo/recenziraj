@@ -32,7 +32,7 @@ final class AddReviewViewController: BaseViewController<AddReviewViewModel> {
     }()
     
     private lazy var starRatingView: FiveStarRatingView = {
-        let view = FiveStarRatingView(starSize: 40)
+        let view = FiveStarRatingView(starSize: 40, isUserInteractionEnabled: true)
         view.onValueChange = { [weak self] value in
             self?.viewModel.starRating = value
             let canSubmitReview = self?.viewModel.isStarRatingSet() ?? false
@@ -76,6 +76,9 @@ final class AddReviewViewController: BaseViewController<AddReviewViewModel> {
 private extension AddReviewViewController {
     func setupSelf() {
         view.backgroundColor = UIColor(named: "background_color")
+        
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(self.dismissKeyboard (_:)))
+        self.view.addGestureRecognizer(tapGesture)
     }
     
     func addSubviews() {
@@ -137,5 +140,9 @@ private extension AddReviewViewController {
                 self?.viewModel.popVC?()
             }
         }
+    }
+    
+    @objc func dismissKeyboard (_ sender: UITapGestureRecognizer) {
+        reviewTextFieldView.textField.resignFirstResponder()
     }
 }
