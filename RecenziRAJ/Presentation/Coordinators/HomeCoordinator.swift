@@ -81,6 +81,10 @@ private extension HomeCoordinator {
             }
         }
         
+        addReviewViewModel.popVC = { [weak self] in
+            self?.navigationController.popViewController(animated: true)
+        }
+        
         navigationController.pushViewController(addReviewViewController, animated: true)
-    }
+    }    
 }

@@ -10,40 +10,12 @@ import SnapKit
 
 final class AddReviewViewController: BaseViewController<AddReviewViewModel> {
     
-    private lazy var containerStackView: UIStackView = {
-        let stackView = UIStackView()
-        stackView.axis = .vertical
-        stackView.distribution = .fill
-        stackView.alignment = .center
-        stackView.spacing = 10
-        return stackView
-    }()
-    
-    private lazy var itemContainerStackView: UIStackView = {
-        let stackView = UIStackView()
-        stackView.axis = .horizontal
-        stackView.distribution = .fillProportionally
-        stackView.alignment = .leading
-        stackView.spacing = 20
-        stackView.setContentHuggingPriority(.defaultLow, for: .vertical)
-        return stackView
-    }()
-    
     private lazy var itemImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.image = UIImage(named: viewModel.itemNameEnum.thumbnail)
         return imageView
     }()
-    
-    private lazy var innerRightItemContainerStackView: UIStackView = {
-        let stackView = UIStackView()
-        stackView.axis = .vertical
-        stackView.distribution = .fill
-        stackView.alignment = .leading
-        stackView.spacing = 10
-        return stackView
-    }()
-    
+
     private lazy var itemNameLabel: UILabel = {
         let label = UILabel()
         label.text = viewModel.itemNameEnum.rawValue
@@ -54,10 +26,20 @@ final class AddReviewViewController: BaseViewController<AddReviewViewModel> {
     
     private lazy var itemRatingLabel: UILabel = {
         let label = UILabel()
-        label.text = "4.3/5"
         label.font = UIFont.systemFont(ofSize: 22)
         label.numberOfLines = 0
         return label
+    }()
+    
+    private lazy var starRatingView: FiveStarRatingView = {
+        let view = FiveStarRatingView(starSize: 40)
+        view.onValueChange = { [weak self] value in
+            self?.viewModel.starRating = value
+            let canSubmitReview = self?.viewModel.isStarRatingSet() ?? false
+            self?.submitReviewButton.isEnabled = canSubmitReview
+            self?.submitReviewButton.backgroundColor = canSubmitReview ? .black : .black.withAlphaComponent(0.3)
+        }
+        return view
     }()
     
     private lazy var reviewTextFieldView: TextFieldView = {
@@ -71,11 +53,14 @@ final class AddReviewViewController: BaseViewController<AddReviewViewModel> {
     private lazy var submitReviewButton: UIButton = {
         let button = UIButton()
         button.setTitle("Submit Review", for: .normal)
-        button.addTarget(self, action: #selector(submitReviewButtonTapped), for: .touchUpInside)
+        button.addTarget(self,
+                         action: #selector(submitReviewButtonTapped),
+                         for: .touchUpInside)
         button.setTitleColor(.white, for: .normal)
-        button.backgroundColor = .black
+        button.backgroundColor = .black.withAlphaComponent(0.3)
         button.layer.cornerRadius = 15
         button.layer.masksToBounds = true
+        button.isEnabled = false
         return button
     }()
     
@@ -86,8 +71,6 @@ final class AddReviewViewController: BaseViewController<AddReviewViewModel> {
         addSubviews()
         makeConstraints()
     }
-
-
 }
 
 private extension AddReviewViewController {
@@ -96,43 +79,48 @@ private extension AddReviewViewController {
     }
     
     func addSubviews() {
-        itemContainerStackView.addArrangedSubview(itemImageView)
-        innerRightItemContainerStackView.addArrangedSubview(itemNameLabel)
-        innerRightItemContainerStackView.addArrangedSubview(itemRatingLabel)
-        itemContainerStackView.addArrangedSubview(innerRightItemContainerStackView)
-        containerStackView.addArrangedSubview(itemContainerStackView)
-        containerStackView.addArrangedSubview(reviewTextFieldView)
-        containerStackView.addArrangedSubview(submitReviewButton)
-
-        view.addSubview(containerStackView)
+        view.addSubview(itemImageView)
+        view.addSubview(itemNameLabel)
+        view.addSubview(itemRatingLabel)
+        view.addSubview(starRatingView)
+        view.addSubview(reviewTextFieldView)
+        view.addSubview(submitReviewButton)
     }
     
     func makeConstraints() {
-        containerStackView.snp.makeConstraints {
-            $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).inset(20)
-            $0.leading.trailing.equalToSuperview().inset(20)
-            $0.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom)
-        }
-        
         itemImageView.snp.makeConstraints {
+            $0.leading.equalToSuperview().inset(20)
+            $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).inset(20)
             $0.size.equalTo(150)
         }
-
-        itemContainerStackView.snp.makeConstraints {
-            $0.leading.trailing.equalToSuperview()
-            $0.height.equalTo(175)
+        
+        itemNameLabel.snp.makeConstraints {
+            $0.leading.equalTo(itemImageView.snp.trailing).offset(20)
+            $0.top.equalTo(itemImageView.snp.top)
+            $0.trailing.equalToSuperview().offset(20)
+        }
+        
+        itemRatingLabel.snp.makeConstraints {
+            $0.leading.equalTo(itemImageView.snp.trailing).offset(20)
+            $0.top.equalTo(itemNameLabel.snp.bottom).offset(20)
+            $0.trailing.equalTo(itemNameLabel.snp.trailing).offset(20)
+        }
+        
+        starRatingView.snp.makeConstraints {
+            $0.top.equalTo(itemImageView.snp.bottom).offset(20)
+            $0.leading.trailing.equalToSuperview().inset(20)
         }
         
         reviewTextFieldView.snp.makeConstraints {
-            $0.top.equalTo(itemContainerStackView.snp.bottom)
-            $0.leading.trailing.equalToSuperview()
+            $0.leading.trailing.equalToSuperview().inset(20)
+            $0.top.equalTo(starRatingView.snp.bottom).offset(20)
             $0.height.equalTo(75)
         }
         
         submitReviewButton.snp.makeConstraints {
-            $0.leading.trailing.equalToSuperview()
-            $0.bottom.equalToSuperview().inset(200)
-            $0.height.equalTo(50)
+            $0.leading.trailing.equalToSuperview().inset(20)
+            $0.top.equalTo(reviewTextFieldView.snp.bottom).offset(20)
+            $0.height.equalTo(60)
         }
     }
     
@@ -140,11 +128,13 @@ private extension AddReviewViewController {
         guard let review = reviewTextFieldView.textField.text else {
             return
         }
-        viewModel.submitReview(review: review) { [weak self] error in
-            if let error = error {
-                self?.viewModel.showAlert?("Error", "There was an error while trying to submit your review.", "Confirm")
+        viewModel.submitReview(review: review, starRating: viewModel.starRating) { [weak self] error in
+            if error != nil {
+                self?.viewModel.showAlert?("Error",
+                                           "There was an error while trying to submit your review.",
+                                           "Confirm")
             } else {
-                self?.viewModel.showAlert?("Success", "Your review has been successfully submitted.", "Confirm")
+                self?.viewModel.popVC?()
             }
         }
     }

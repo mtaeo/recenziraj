@@ -16,6 +16,8 @@
 		8C0D9A68298737EE00AFFE8A /* AddReviewViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C0D9A67298737EE00AFFE8A /* AddReviewViewModel.swift */; };
 		8C0D9A6A298737F900AFFE8A /* AddReviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C0D9A69298737F900AFFE8A /* AddReviewViewController.swift */; };
 		8C0EA1F22907F507003484BA /* ImagePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C0EA1F12907F507003484BA /* ImagePicker.swift */; };
+		8C14CBC9298B36A100C973D7 /* FiveStarRatingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C14CBC8298B36A100C973D7 /* FiveStarRatingView.swift */; };
+		8C14CBCB298B393500C973D7 /* UIStackView+App.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C14CBCA298B393500C973D7 /* UIStackView+App.swift */; };
 		8C3AA19128BFCEF70024CA30 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C3AA19028BFCEF70024CA30 /* LoginViewController.swift */; };
 		8C3AA19328BFCF030024CA30 /* LoginViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C3AA19228BFCF030024CA30 /* LoginViewModel.swift */; };
 		8C6953C928BA85670071956B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C6953C828BA85670071956B /* AppDelegate.swift */; };
@@ -63,6 +65,8 @@
 		8C0D9A67298737EE00AFFE8A /* AddReviewViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddReviewViewModel.swift; sourceTree = "<group>"; };
 		8C0D9A69298737F900AFFE8A /* AddReviewViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddReviewViewController.swift; sourceTree = "<group>"; };
 		8C0EA1F12907F507003484BA /* ImagePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePicker.swift; sourceTree = "<group>"; };
+		8C14CBC8298B36A100C973D7 /* FiveStarRatingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FiveStarRatingView.swift; sourceTree = "<group>"; };
+		8C14CBCA298B393500C973D7 /* UIStackView+App.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIStackView+App.swift"; sourceTree = "<group>"; };
 		8C3AA19028BFCEF70024CA30 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		8C3AA19228BFCF030024CA30 /* LoginViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewModel.swift; sourceTree = "<group>"; };
 		8C6953C528BA85670071956B /* RecenziRAJ.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RecenziRAJ.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -143,6 +147,7 @@
 			isa = PBXGroup;
 			children = (
 				8C0D9A642986D03300AFFE8A /* ItemReviewTableViewCell.swift */,
+				8C14CBC8298B36A100C973D7 /* FiveStarRatingView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -321,6 +326,7 @@
 			children = (
 				8CB98A2028CA80F30070EA0A /* UIViewController+App.swift */,
 				8C072E0E2989866C001D70AE /* UITableView+App.swift */,
+				8C14CBCA298B393500C973D7 /* UIStackView+App.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -493,6 +499,7 @@
 				8C0D9A652986D03300AFFE8A /* ItemReviewTableViewCell.swift in Sources */,
 				8CB98A1728CA557F0070EA0A /* ProfileViewModel.swift in Sources */,
 				8CB98A2528CA8E300070EA0A /* ProfileCoordinator.swift in Sources */,
+				8C14CBCB298B393500C973D7 /* UIStackView+App.swift in Sources */,
 				8CF861B628C7F25C0044B440 /* MainTabBarViewModel.swift in Sources */,
 				8CE77FC628BBB0B400B6B0F0 /* AuthErrors.swift in Sources */,
 				8CE2484529857F1000FAF6B3 /* StorageService.swift in Sources */,
@@ -503,6 +510,7 @@
 				8C6953E928BA97200071956B /* RegisterViewModel.swift in Sources */,
 				8CB98A1528CA55690070EA0A /* ProfileViewController.swift in Sources */,
 				8C6953EF28BA9EFF0071956B /* TextFieldView.swift in Sources */,
+				8C14CBC9298B36A100C973D7 /* FiveStarRatingView.swift in Sources */,
 				8CDEAC282988991B0014486E /* Encodable.swift in Sources */,
 				8C94717828BFBF2B00C8AAA4 /* BaseViewModel.swift in Sources */,
 				8C3AA19328BFCF030024CA30 /* LoginViewModel.swift in Sources */,

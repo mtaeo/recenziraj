@@ -53,7 +53,7 @@ final class ItemReviewsViewController: BaseViewController<ItemReviewsViewModel> 
     
     private lazy var itemRatingLabel: UILabel = {
         let label = UILabel()
-        label.text = "4.3/5"
+        label.text = ""
         label.font = UIFont.systemFont(ofSize: 22)
         label.numberOfLines = 0
         return label
@@ -80,6 +80,7 @@ final class ItemReviewsViewController: BaseViewController<ItemReviewsViewModel> 
         tableView.bounces = true
         tableView.isHidden = true
         tableView.register(ItemReviewTableViewCell.self, forCellReuseIdentifier: ItemReviewTableViewCell.cellIdentifier)
+        tableView.estimatedRowHeight = 80;
         tableView.rowHeight = UITableView.automaticDimension
         return tableView
     }()
@@ -91,10 +92,12 @@ final class ItemReviewsViewController: BaseViewController<ItemReviewsViewModel> 
         addSubviews()
         makeConstraints()
     }
+
     
-    override func viewDidLayoutSubviews() {
+    override func viewDidAppear(_ animated: Bool) {
         startSpinner()
         viewModel.fetchItemReviews { [weak self] itemReviews, error in
+            self?.itemRatingLabel.text = "\(self?.viewModel.averageRating ?? 1)"
             self?.itemReviewsTableView.isHidden = false
             self?.itemReviewsTableView.reloadData()
             self?.stopSpinner()
@@ -174,8 +177,8 @@ extension ItemReviewsViewController: UITableViewDelegate, UITableViewDataSource 
             return ItemReviewTableViewCell()
         }
         let itemReview = viewModel.getItemReview(at: indexPath.row)
-        cell.setup(itemReview: itemReview)
-        cell.profileImageView.sd_setImage(with: viewModel.storageService.profileImagesStorageRef.child(itemReview?.userUid ?? ""),
+        cell.setup(itemReview: itemReview)        
+        cell.profileImageView.sd_setImage(with: viewModel.getProfileImageStorageRef(for: itemReview?.userUid),
                                           placeholderImage: UIImage(named: "profile_image_placholder"))
         return cell
     }

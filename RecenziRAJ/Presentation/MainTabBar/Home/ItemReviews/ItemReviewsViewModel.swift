@@ -5,18 +5,23 @@
 //  Created by Mateo on 29.01.2023..
 //
 
-import Foundation
+import FirebaseStorage
 
 final class ItemReviewsViewModel: BaseViewModel {
     
     var onDidTapAddReview: (() -> Void)?
     var showAlert: ((String?, String?, String?) -> Void)?
     let itemNameEnum: Classifications.ItemName
+    var averageRating: Double = 1
     
-     let authService: AuthService
+    private let authService: AuthService
     private let userInteractionsService: UserInteractionsService
-     let storageService: StorageService
-    private var itemReviews: [ItemReview]?
+    private let storageService: StorageService
+    private var itemReviews: [ItemReview]? {
+        didSet {
+            calculateAverageRating()
+        }
+    }
 
     init(authService: AuthService,
          userInteractionsService: UserInteractionsService,
@@ -47,10 +52,25 @@ final class ItemReviewsViewModel: BaseViewModel {
         itemReviews?.count ?? 0
     }
     
+    func getProfileImageStorageRef(for uid: String?) -> StorageReference {
+        storageService.profileImagesStorageRef.child(uid ?? "")
+    }
+    
     func getItemReview(at index: Int) -> ItemReview? {
         guard let itemReviews = itemReviews else {
             return nil
         }
         return itemReviews[index]
+    }
+}
+
+private extension ItemReviewsViewModel {
+    func calculateAverageRating() {
+        let sum = itemReviews?.reduce(0, { partialResult, itemReview in
+        partialResult + itemReview.starAmount
+        }) ?? 0
+        averageRating = itemReviews?.count == 0
+                                        ? Double(sum)
+                                        : Double(sum / (itemReviews?.count ?? 1))
     }
 }

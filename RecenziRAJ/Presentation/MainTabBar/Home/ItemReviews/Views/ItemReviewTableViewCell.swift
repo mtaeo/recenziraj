@@ -25,24 +25,29 @@ final class ItemReviewTableViewCell: UITableViewCell {
         stackView.axis = .vertical
         stackView.alignment = .leading
         stackView.distribution = .fill
+        stackView.setContentCompressionResistancePriority(.required, for: .vertical)
         return stackView
     }()
     
     private lazy var userDisplayNameLabel: UILabel = {
         let label = UILabel()
-        label.text = "Placeholder"
+        label.text = ""
+        label.font = UIFont.boldSystemFont(ofSize: 20)
+        label.numberOfLines = 0
         return label
     }()
     
-    private lazy var starAmountLabel: UILabel = {
-        let label = UILabel()
-        label.text = "4/5"
-        return label
+    private lazy var starAmountView: FiveStarRatingView = {
+        let starAmountView = FiveStarRatingView(starSize: 20)
+        starAmountView.setContentCompressionResistancePriority(.required, for: .vertical)
+        return starAmountView
     }()
     
     private lazy var itemReviewLabel: UILabel = {
         let label = UILabel()
-        label.text = "Review placeholder"
+        label.text = ""
+        label.numberOfLines = 0
+        label.lineBreakMode = .byWordWrapping
         return label
     }()
 
@@ -62,14 +67,6 @@ final class ItemReviewTableViewCell: UITableViewCell {
         super.layoutSubviews()
         profileImageView.layer.cornerRadius = profileImageView.frame.size.width / 2
     }
-    
-    override func prepareForReuse() {
-        super.prepareForReuse()
-//        isHidden = false
-//        isSelected = false
-//        isHighlighted = false
-//        profileImageView.image = UIImage(named: "placeholder_profile_image")
-    }
 
 }
 
@@ -78,6 +75,7 @@ extension ItemReviewTableViewCell {
     func setup(itemReview: ItemReview?) {
         userDisplayNameLabel.text = itemReview?.userDisplayName ?? "Anonymous"
         itemReviewLabel.text = itemReview?.review
+        starAmountView.ratingValue = itemReview?.starAmount ?? 1
     }
     
     func setupImageWithData(_ reviewerProfileImageData: Data?) {
@@ -97,35 +95,34 @@ private extension ItemReviewTableViewCell {
     }
     
     func addSubviews() {
-        reviewContainerStackView.addArrangedSubview(userDisplayNameLabel)
-        reviewContainerStackView.addArrangedSubview(starAmountLabel)
-        reviewContainerStackView.addArrangedSubview(itemReviewLabel)
         contentView.addSubview(profileImageView)
-        contentView.addSubview(reviewContainerStackView)
+        contentView.addSubview(userDisplayNameLabel)
+        contentView.addSubview(starAmountView)
+        contentView.addSubview(itemReviewLabel)
     }
     
     func makeConstraints() {
         
         profileImageView.snp.makeConstraints {
-            $0.leading.equalToSuperview()
+            $0.leading.top.equalToSuperview().inset(10)
             $0.size.equalTo(50)
         }
         
-        reviewContainerStackView.snp.makeConstraints {
-            $0.leading.equalTo(profileImageView.snp.trailing)
-            $0.top.trailing.bottom.equalToSuperview()
+        userDisplayNameLabel.snp.makeConstraints {
+            $0.leading.equalTo(profileImageView.snp.trailing).offset(10)
+            $0.top.trailing.equalToSuperview().inset(10)
         }
         
-        userDisplayNameLabel.snp.makeConstraints {
-            $0.leading.trailing.equalToSuperview()
+        starAmountView.snp.makeConstraints {
+            $0.leading.equalTo(profileImageView.snp.trailing).offset(10)
+            $0.top.equalTo(userDisplayNameLabel.snp.bottom).offset(10)
         }
         
         itemReviewLabel.snp.makeConstraints {
-            $0.leading.trailing.equalToSuperview()
-        }
-        
-        starAmountLabel.snp.makeConstraints {
-            $0.leading.trailing.equalToSuperview()
+            $0.leading.equalTo(profileImageView.snp.trailing).offset(10)
+            $0.top.equalTo(starAmountView.snp.bottom).offset(10)
+            $0.trailing.equalToSuperview()
+            $0.bottom.equalToSuperview().inset(20)
         }
         
     }

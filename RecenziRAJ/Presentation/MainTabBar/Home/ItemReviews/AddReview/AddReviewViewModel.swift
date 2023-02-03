@@ -8,6 +8,8 @@
 final class AddReviewViewModel: BaseViewModel {
     
     var showAlert: ((String?, String?, String?) -> Void)?
+    var starRating: Int = 0
+    var popVC: (() -> ())?
     let itemNameEnum: Classifications.ItemName
     
     private let authService: AuthService
@@ -19,7 +21,7 @@ final class AddReviewViewModel: BaseViewModel {
         self.itemNameEnum = itemNameEnum
     }
     
-    func submitReview(review: String, completion: @escaping ((Error?) -> Void)) {
+    func submitReview(review: String, starRating: Int, completion: @escaping ((Error?) -> Void)) {
         guard let uid = authService.currentUser?.uid,
               let userDisplayName = authService.currentUser?.displayName else {
             completion((ApiError.LoginError.unknown))
@@ -29,7 +31,11 @@ final class AddReviewViewModel: BaseViewModel {
                                                             userDisplayName: userDisplayName,
                                                             itemName: itemNameEnum.rawValue,
                                                             review: review,
-                                                            starAmount: 5
+                                                            starAmount: starRating
                                                            ), completion: completion)
+    }
+    
+    func isStarRatingSet() -> Bool {
+        starRating > 0
     }
 }
