@@ -1,17 +1,15 @@
 {
   "images" : [
     {
-      "filename" : "kinder_joy@1x.png",
+      "filename" : "m_and_m_peanut_butter.jpg",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
-      "filename" : "kinder_joy@2x.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
-      "filename" : "kinder_joy@3x.png",
       "idiom" : "universal",
       "scale" : "3x"
     }

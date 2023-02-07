@@ -217,8 +217,11 @@ private extension LoginViewController {
     }
     
     @objc func loginButtonTapped(_ sender: UITapGestureRecognizer) {
-        viewModel.loginUser(email: emailTextField.textField.text ?? "", password: passwordTextField.textField.text ?? "") { [weak self] in
+        viewModel.loginUser(email: emailTextField.textField.text ?? "",
+                            password: passwordTextField.textField.text ?? "") { [weak self] in
             self?.viewModel.onSuccessfullLogin?()
+            self?.passwordTextField.textField.resignFirstResponder()
+            self?.emailTextField.textField.resignFirstResponder()
         } onErrorCompletion: { [weak self] errorDescription in
             self?.viewModel.showAlert?("Error", errorDescription, "Confirm")
         }

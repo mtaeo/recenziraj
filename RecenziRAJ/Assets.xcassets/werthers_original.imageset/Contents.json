@@ -1,17 +1,15 @@
 {
   "images" : [
     {
-      "filename" : "kit_kat@1x.png",
+      "filename" : "werthers_original.jpg",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
-      "filename" : "kit_kat@2x.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
-      "filename" : "kit_kat@3x.png",
       "idiom" : "universal",
       "scale" : "3x"
     }

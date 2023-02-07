@@ -9,7 +9,8 @@ import FirebaseCore
 import FirebaseFirestore
 
 protocol UserInteractionsServiceProtocol {
-    
+    func submitItemReview(_ itemReview: ItemReview, completion: @escaping ((Error?) -> Void))
+    func fetchItemReviews(for itemName: String, completion: @escaping (([ItemReview], Error?) -> Void)) 
 }
 
 final class UserInteractionsService: UserInteractionsServiceProtocol {

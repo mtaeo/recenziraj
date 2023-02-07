@@ -141,6 +141,9 @@ private extension ProfileViewController {
     func setupSelf() {
         view.backgroundColor = UIColor(named: "background_color")
         navigationController?.navigationBar.topItem?.title = "Profile Settings"
+        
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(self.dismissKeyboard (_:)))
+        self.view.addGestureRecognizer(tapGesture)
     }
     
     func addSubviews() {
@@ -199,6 +202,7 @@ private extension ProfileViewController {
     
     @objc func saveUserInfoChangesButtonPressed() {
         startSpinner()
+        usernameTextFieldView.resignFirstResponder()
         viewModel.updateDisplayName(username: usernameTextFieldView.textField.text) { [weak self] error in
             if error == nil {
                 self?.viewModel.showAlert?("User Profile Change",
@@ -251,6 +255,10 @@ private extension ProfileViewController {
                 self?.profileImageView.image = UIImage.init(data: data)
             }
         }
+    }
+    
+    @objc func dismissKeyboard (_ sender: UITapGestureRecognizer) {
+        usernameTextFieldView.textField.resignFirstResponder()
     }
 }
 

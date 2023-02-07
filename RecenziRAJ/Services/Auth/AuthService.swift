@@ -16,14 +16,25 @@ protocol AuthServiceProtocol {
     var currentUser: User? { get }
     var signUpState: AuthSignUpState { get set }
     
-    func loginWithEmail(email: String, password: String, completion: @escaping (_ error: ApiError.LoginError?) -> Void)
-    func registerUser(email: String, password: String, completion: @escaping (_ error: ApiError.RegisterError?) -> Void)
-    func sendPasswordReset(email: String, _ completion: ((Error?) -> ())?)
-    func updateDisplayName(username: String, completion: @escaping (Error?) -> Void)
+    func loginWithEmail(email: String,
+                        password: String,
+                        completion: @escaping (_ error: ApiError.LoginError?) -> Void)
+    
+    func registerUser(email: String,
+                      password: String,
+                      completion: @escaping (_ error: ApiError.RegisterError?) -> Void)
+    
+    func sendPasswordReset(email: String,
+                           _ completion: ((Error?) -> ())?)
+    
+    func updateDisplayName(username: String,
+                           completion: @escaping (Error?) -> Void)
+    
     func logoutUser()
 }
 
 final class AuthService: AuthServiceProtocol {
+    // Detalji implementacije
     
     private let auth = FirebaseAuth.Auth.auth()
     var currentUser: User?

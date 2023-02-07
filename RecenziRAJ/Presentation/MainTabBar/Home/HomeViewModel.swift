@@ -21,12 +21,12 @@ final class HomeViewModel: BaseViewModel {
     
     private lazy var classificationRequest: VNCoreMLRequest = {
         do {
-            let model = try VNCoreMLModel.init(for: RecenzirajClassifier.init(configuration: MLModelConfiguration()).model)
+            let model = try VNCoreMLModel.init(for: RecenzirajFinalClassifier.init(configuration: MLModelConfiguration()).model)
             let request = VNCoreMLRequest(model: model) { [weak self] request, error in
                 self?.processClassifications(for: request, error: error)
             }
             
-            request.imageCropAndScaleOption = .centerCrop
+            request.imageCropAndScaleOption = .scaleFit
                         
             return request
         } catch {
@@ -42,10 +42,11 @@ final class HomeViewModel: BaseViewModel {
 }
 
 extension HomeViewModel {
-    func updateClassifications(for image: UIImage, completionHandler: @escaping ([VNClassificationObservation]?) -> Void, errorHandler: (Error) -> Void) {        
+    func updateClassifications(for image: UIImage, completionHandler: @escaping ([VNClassificationObservation]?) -> Void, errorHandler: (Error) -> Void) {
+        print("Prvi Image: \(image)")
+        let orientation = CGImagePropertyOrientation(rawValue: UInt32(image.imageOrientation.rawValue))!
         let ciImage = CIImage(image: image)!
-        let handler = VNImageRequestHandler(ciImage: ciImage)
-        
+        let handler = VNImageRequestHandler(ciImage: ciImage, orientation: orientation)
         
         do {
             onClassificationSucceeded = completionHandler
@@ -93,12 +94,6 @@ private extension HomeViewModel {
     func processClassifications(for request: VNRequest, error: Error?) {
         classifications = request.results as? [VNClassificationObservation] ?? []
         classifications = filterClassifications(classifications)
-        
-//        if let results = request.results as? [VNPixelBufferObservation],
-//           let pixelBuffer = results.first?.pixelBuffer {
-//          let ciImage = CIImage(cvPixelBuffer: pixelBuffer)
-//          self.afterImage = UIImage(ciImage: ciImage)
-//        }
         
         classifications.isEmpty
             ? onClassificationSucceeded?(nil)
