@@ -122,7 +122,6 @@ extension HomeViewController: ImagePickerDelegate {
         
         if let image = image {
             viewModel.updateClassifications(for: image) { [weak self] classifications in
-                let x = self?.viewModel.afterImage
                 if classifications != nil {
                     self?.classificationResultTableView.isHidden = false
                     self?.classificationResultTableView.reloadData()

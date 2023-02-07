@@ -15,8 +15,6 @@ final class HomeViewModel: BaseViewModel {
     var showAlert: ((String?, String?, String?) -> Void)?
     var classifications: [VNClassificationObservation] = []
     
-    var afterImage: UIImage?
-
     private let authService: AuthService
     
     private lazy var classificationRequest: VNCoreMLRequest = {
@@ -43,7 +41,6 @@ final class HomeViewModel: BaseViewModel {
 
 extension HomeViewModel {
     func updateClassifications(for image: UIImage, completionHandler: @escaping ([VNClassificationObservation]?) -> Void, errorHandler: (Error) -> Void) {
-        print("Prvi Image: \(image)")
         let orientation = CGImagePropertyOrientation(rawValue: UInt32(image.imageOrientation.rawValue))!
         let ciImage = CIImage(image: image)!
         let handler = VNImageRequestHandler(ciImage: ciImage, orientation: orientation)
