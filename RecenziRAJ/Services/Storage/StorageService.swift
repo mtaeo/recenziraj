@@ -8,8 +8,12 @@
 import FirebaseStorage
 
 protocol StorageServiceProtocol {
-    func uploadProfileImage(uid: String, image: UIImage, completion: @escaping ((StorageMetadata?, Error?) -> Void))
-    func downloadProfileImage(uid: String, completion: @escaping ((Data?, Error?) -> Void))
+    func uploadProfileImage(uid: String,
+                            image: UIImage,
+                            completion: @escaping ((StorageMetadata?, Error?) -> Void))
+    
+    func downloadProfileImage(uid: String,
+                              completion: @escaping ((Data?, Error?) -> Void))
 }
 
 final class StorageService: StorageServiceProtocol {

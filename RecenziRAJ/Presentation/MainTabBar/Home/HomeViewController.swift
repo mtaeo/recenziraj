@@ -155,3 +155,4 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
         viewModel.didTapClassificationItem(index: indexPath.row)
     }
 }
+

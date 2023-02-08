@@ -40,7 +40,9 @@ final class HomeViewModel: BaseViewModel {
 }
 
 extension HomeViewModel {
-    func updateClassifications(for image: UIImage, completionHandler: @escaping ([VNClassificationObservation]?) -> Void, errorHandler: (Error) -> Void) {
+    func updateClassifications(for image: UIImage,
+                               completionHandler: @escaping ([VNClassificationObservation]?) -> Void,
+                               errorHandler: (Error) -> Void) {
         let orientation = CGImagePropertyOrientation(rawValue: UInt32(image.imageOrientation.rawValue))!
         let ciImage = CIImage(image: image)!
         let handler = VNImageRequestHandler(ciImage: ciImage, orientation: orientation)
