@@ -12,8 +12,8 @@ class BaseViewController<T: BaseViewModel>: UIViewController {
     
     var viewModel: T
     
-    private lazy var spinnerView: AnimationView = {
-        let spinnerView = AnimationView.init(name: "lottie_spinner")
+    private lazy var spinnerView: LottieAnimationView = {
+        let spinnerView = LottieAnimationView.init(name: "lottie_spinner")
         spinnerView.frame = view.bounds
         spinnerView.contentMode = .scaleAspectFit
         spinnerView.loopMode = .loop

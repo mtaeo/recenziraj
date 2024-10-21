@@ -14,22 +14,30 @@
 // limitations under the License.
 //
 
-#include <grpc/support/port_platform.h>
-
 #include "src/core/lib/uri/uri_parser.h"
 
-#include <string.h>
+#include <ctype.h>
+#include <stddef.h>
 
+#include <algorithm>
+#include <functional>
 #include <map>
 #include <string>
+#include <utility>
 
+#include "absl/log/check.h"
+#include "absl/status/status.h"
+#include "absl/strings/ascii.h"
 #include "absl/strings/escaping.h"
+#include "absl/strings/match.h"
+#include "absl/strings/str_cat.h"
 #include "absl/strings/str_format.h"
+#include "absl/strings/str_join.h"
 #include "absl/strings/str_split.h"
+#include "absl/strings/strip.h"
 
 #include <grpc/support/log.h>
-
-#include "src/core/lib/gpr/string.h"
+#include <grpc/support/port_platform.h>
 
 namespace grpc_core {
 
@@ -134,7 +142,7 @@ std::string PercentEncode(absl::string_view str,
   for (char c : str) {
     if (!is_allowed_char(c)) {
       std::string hex = absl::BytesToHexString(absl::string_view(&c, 1));
-      GPR_ASSERT(hex.size() == 2);
+      CHECK_EQ(hex.size(), 2u);
       // BytesToHexString() returns lower case, but
       // https://datatracker.ietf.org/doc/html/rfc3986#section-6.2.2.1 says
       // to prefer upper-case.
@@ -166,6 +174,10 @@ absl::Status MakeInvalidURIStatus(absl::string_view part_name,
 
 }  // namespace
 
+std::string URI::PercentEncodeAuthority(absl::string_view str) {
+  return PercentEncode(str, IsAuthorityChar);
+}
+
 std::string URI::PercentEncodePath(absl::string_view str) {
   return PercentEncode(str, IsPathChar);
 }
@@ -195,7 +207,6 @@ std::string URI::PercentDecode(absl::string_view str) {
 }
 
 absl::StatusOr<URI> URI::Parse(absl::string_view uri_text) {
-  absl::StatusOr<std::string> decoded;
   absl::string_view remaining = uri_text;
   // parse scheme
   size_t offset = remaining.find(':');

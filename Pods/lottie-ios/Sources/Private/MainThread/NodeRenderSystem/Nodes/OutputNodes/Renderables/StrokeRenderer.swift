@@ -5,33 +5,32 @@
 //  Created by Brandon Withrow on 1/30/19.
 //
 
-import Foundation
 import QuartzCore
 
 extension LineJoin {
   var cgLineJoin: CGLineJoin {
     switch self {
     case .bevel:
-      return .bevel
+      .bevel
     case .none:
-      return .miter
+      .miter
     case .miter:
-      return .miter
+      .miter
     case .round:
-      return .round
+      .round
     }
   }
 
   var caLineJoin: CAShapeLayerLineJoin {
     switch self {
     case .none:
-      return CAShapeLayerLineJoin.miter
+      CAShapeLayerLineJoin.miter
     case .miter:
-      return CAShapeLayerLineJoin.miter
+      CAShapeLayerLineJoin.miter
     case .round:
-      return CAShapeLayerLineJoin.round
+      CAShapeLayerLineJoin.round
     case .bevel:
-      return CAShapeLayerLineJoin.bevel
+      CAShapeLayerLineJoin.bevel
     }
   }
 }
@@ -40,26 +39,26 @@ extension LineCap {
   var cgLineCap: CGLineCap {
     switch self {
     case .none:
-      return .butt
+      .butt
     case .butt:
-      return .butt
+      .butt
     case .round:
-      return .round
+      .round
     case .square:
-      return .square
+      .square
     }
   }
 
   var caLineCap: CAShapeLayerLineCap {
     switch self {
     case .none:
-      return CAShapeLayerLineCap.butt
+      CAShapeLayerLineCap.butt
     case .butt:
-      return CAShapeLayerLineCap.butt
+      CAShapeLayerLineCap.butt
     case .round:
-      return CAShapeLayerLineCap.round
+      CAShapeLayerLineCap.round
     case .square:
-      return CAShapeLayerLineCap.square
+      CAShapeLayerLineCap.square
     }
   }
 }
@@ -132,7 +131,7 @@ final class StrokeRenderer: PassThroughOutputNode, Renderable {
     inContext.setMiterLimit(miterLimit)
     inContext.setLineCap(lineCap.cgLineCap)
     inContext.setLineJoin(lineJoin.cgLineJoin)
-    if let dashPhase = dashPhase, let lengths = dashLengths {
+    if let dashPhase, let lengths = dashLengths {
       inContext.setLineDash(phase: dashPhase, lengths: lengths)
     } else {
       inContext.setLineDash(phase: 0, lengths: [])
@@ -143,7 +142,7 @@ final class StrokeRenderer: PassThroughOutputNode, Renderable {
     guard inContext.path != nil, inContext.path!.isEmpty == false else {
       return
     }
-    guard let color = color else { return }
+    guard let color else { return }
     hasUpdate = false
     setupForStroke(inContext)
     inContext.setAlpha(opacity)
@@ -160,7 +159,7 @@ final class StrokeRenderer: PassThroughOutputNode, Renderable {
     layer.lineDashPhase = dashPhase ?? 0
     layer.fillColor = nil
     if let dashPattern = dashLengths {
-      layer.lineDashPattern = dashPattern.map({ NSNumber(value: Double($0)) })
+      layer.lineDashPattern = dashPattern.map { NSNumber(value: Double($0)) }
     }
   }
 }

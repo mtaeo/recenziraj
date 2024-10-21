@@ -14,13 +14,12 @@
 
 import Foundation
 
-import FirebaseStorageInternal
-
 /**
  * `StorageTaskSnapshot` represents an immutable view of a task.
  * A snapshot contains a task, storage reference, metadata (if it exists),
  * progress, and an error (if one occurred).
  */
+@available(iOS 13, tvOS 13, macOS 10.15, macCatalyst 13, watchOS 7, *)
 @objc(FIRStorageTaskSnapshot) open class StorageTaskSnapshot: NSObject {
   /**
    * The task this snapshot represents.
@@ -52,29 +51,38 @@ import FirebaseStorageInternal
    */
   @objc public let status: StorageTaskStatus
 
-  // MARK: - NSObject overrides
+  // MARK: NSObject overrides
 
   @objc override public var description: String {
-    return saveDescription
-  }
-
-  private let saveDescription: String
-
-  internal convenience init(task: StorageTask) {
-    self.init(impl: task.impl.snapshot, task: task)
-  }
-
-  internal init(impl: FIRIMPLStorageTaskSnapshot, task: StorageTask) {
-    self.task = task
-    if let metadata = impl.metadata {
-      self.metadata = StorageMetadata(impl: metadata)
-    } else {
-      metadata = nil
+    switch status {
+    case .resume: return "<State: Resume>"
+    case .progress: return "<State: Progress, Progress: \(String(describing: progress))>"
+    case .pause: return "<State: Paused>"
+    case .success: return "<State: Success>"
+    case .failure: return "<State: Failed, Error: \(String(describing: error))"
+    case .unknown: return "<State: Unknown>"
     }
-    reference = StorageReference(impl.reference)
-    progress = impl.progress
-    error = impl.error
-    status = StorageTaskStatus(rawValue: impl.status.rawValue)!
-    saveDescription = impl.description
+  }
+
+  init(task: StorageTask,
+       state: StorageTaskState,
+       reference: StorageReference,
+       progress: Progress,
+       metadata: StorageMetadata? = nil,
+       error: Error? = nil) {
+    self.task = task
+    self.reference = reference
+    self.progress = progress
+    self.error = error
+    self.metadata = metadata
+
+    switch state {
+    case .queueing, .running, .resuming: status = StorageTaskStatus.resume
+    case .progress: status = StorageTaskStatus.progress
+    case .paused, .pausing: status = StorageTaskStatus.pause
+    case .success, .completing: status = StorageTaskStatus.success
+    case .cancelled, .failed, .failing: status = .failure
+    case .unknown: status = .unknown
+    }
   }
 }

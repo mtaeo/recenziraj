@@ -5,7 +5,6 @@
 //  Created by Brandon Withrow on 1/25/19.
 //
 
-import Foundation
 import QuartzCore
 
 final class PreCompositionLayer: CompositionLayer {
@@ -16,10 +15,13 @@ final class PreCompositionLayer: CompositionLayer {
     precomp: PreCompLayerModel,
     asset: PrecompAsset,
     layerImageProvider: LayerImageProvider,
-    textProvider: AnimationTextProvider,
+    layerTextProvider: LayerTextProvider,
+    layerFontProvider: LayerFontProvider,
+    textProvider: AnimationKeypathTextProvider,
     fontProvider: AnimationFontProvider,
     assetLibrary: AssetLibrary?,
-    frameRate: CGFloat)
+    frameRate: CGFloat,
+    rootAnimationLayer: MainThreadAnimationLayer?)
   {
     animationLayers = []
     if let keyframes = precomp.timeRemapping?.keyframes {
@@ -36,11 +38,15 @@ final class PreCompositionLayer: CompositionLayer {
     let layers = asset.layers.initializeCompositionLayers(
       assetLibrary: assetLibrary,
       layerImageProvider: layerImageProvider,
+      layerTextProvider: layerTextProvider,
+      layerFontProvider: layerFontProvider,
       textProvider: textProvider,
       fontProvider: fontProvider,
-      frameRate: frameRate)
+      frameRate: frameRate,
+      rootAnimationLayer: rootAnimationLayer)
 
     var imageLayers = [ImageCompositionLayer]()
+    var textLayers = [TextCompositionLayer]()
 
     var mattedLayer: CompositionLayer? = nil
 
@@ -49,6 +55,9 @@ final class PreCompositionLayer: CompositionLayer {
       animationLayers.append(layer)
       if let imageLayer = layer as? ImageCompositionLayer {
         imageLayers.append(imageLayer)
+      }
+      if let textLayer = layer as? TextCompositionLayer {
+        textLayers.append(textLayer)
       }
       if let matte = mattedLayer {
         /// The previous layer requires this layer to be its matte
@@ -69,6 +78,8 @@ final class PreCompositionLayer: CompositionLayer {
     childKeypaths.append(contentsOf: layers)
 
     layerImageProvider.addImageLayers(imageLayers)
+    layerTextProvider.addTextLayers(textLayers)
+    layerFontProvider.addTextLayers(textLayers)
   }
 
   override init(layer: Any) {
@@ -90,10 +101,10 @@ final class PreCompositionLayer: CompositionLayer {
   // MARK: Internal
 
   let frameRate: CGFloat
-  let remappingNode: NodeProperty<Vector1D>?
+  let remappingNode: NodeProperty<LottieVector1D>?
 
   override var keypathProperties: [String: AnyNodeProperty] {
-    guard let remappingNode = remappingNode else {
+    guard let remappingNode else {
       return super.keypathProperties
     }
     return ["Time Remap" : remappingNode]
@@ -101,18 +112,22 @@ final class PreCompositionLayer: CompositionLayer {
 
   override func displayContentsWithFrame(frame: CGFloat, forceUpdates: Bool) {
     let localFrame: CGFloat
-    if let remappingNode = remappingNode {
+    if let remappingNode {
       remappingNode.update(frame: frame)
       localFrame = remappingNode.value.cgFloatValue * frameRate
     } else {
       localFrame = (frame - startFrame) / timeStretch
     }
-    animationLayers.forEach({ $0.displayWithFrame(frame: localFrame, forceUpdates: forceUpdates) })
+    for animationLayer in animationLayers {
+      animationLayer.displayWithFrame(frame: localFrame, forceUpdates: forceUpdates)
+    }
   }
 
   override func updateRenderScale() {
     super.updateRenderScale()
-    animationLayers.forEach({ $0.renderScale = renderScale })
+    for animationLayer in animationLayers {
+      animationLayer.renderScale = renderScale
+    }
   }
 
   // MARK: Fileprivate

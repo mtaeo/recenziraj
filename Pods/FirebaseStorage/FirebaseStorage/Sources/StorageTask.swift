@@ -14,35 +14,88 @@
 
 import Foundation
 
-import FirebaseStorageInternal
+#if COCOAPODS
+  import GTMSessionFetcher
+#else
+  import GTMSessionFetcherCore
+#endif
 
 /**
  * A superclass to all Storage tasks, including `StorageUploadTask`
  * and `StorageDownloadTask`, to provide state transitions, event raising, and common storage
  * for metadata and errors.
+ *
  * Callbacks are always fired on the developer-specified callback queue.
  * If no queue is specified, it defaults to the main queue.
- * This class is not thread safe, so only call methods on the main thread.
+ * This class is thread-safe.
  */
+@available(iOS 13, tvOS 13, macOS 10.15, macCatalyst 13, watchOS 7, *)
 @objc(FIRStorageTask) open class StorageTask: NSObject {
   /**
    * An immutable view of the task and associated metadata, progress, error, etc.
    */
   @objc public var snapshot: StorageTaskSnapshot {
-    return StorageTaskSnapshot(task: self)
+    objc_sync_enter(StorageTask.self)
+    defer { objc_sync_exit(StorageTask.self) }
+    let progress = Progress(totalUnitCount: self.progress.totalUnitCount)
+    progress.completedUnitCount = self.progress.completedUnitCount
+    return StorageTaskSnapshot(
+      task: self,
+      state: state,
+      reference: reference,
+      progress: progress,
+      metadata: metadata,
+      error: error
+    )
   }
 
-  // MARK: - Internal APIs
+  // MARK: - Internal Implementations
 
-  internal let impl: FIRIMPLStorageTask
+  /**
+   * State for the current task in progress.
+   */
+  var state: StorageTaskState
 
-  internal init(impl: FIRIMPLStorageTask) {
-    self.impl = impl
+  /**
+   * StorageMetadata for the task in progress, or nil if none present.
+   */
+  var metadata: StorageMetadata?
+
+  /**
+   * Error which occurred during task execution, or nil if no error occurred.
+   */
+  var error: NSError?
+
+  /**
+   * NSProgress object which tracks the progress of an observable task.
+   */
+  var progress: Progress
+
+  /**
+   * Reference pointing to the location the task is being performed against.
+   */
+  let reference: StorageReference
+
+  /**
+   * A serial queue for all storage operations.
+   */
+  let dispatchQueue: DispatchQueue
+
+  let baseRequest: URLRequest
+
+  init(reference: StorageReference,
+       queue: DispatchQueue) {
+    self.reference = reference
+    dispatchQueue = queue
+    state = .unknown
+    progress = Progress(totalUnitCount: 0)
+    baseRequest = StorageUtils.defaultRequestForReference(reference: reference)
   }
 }
 
 /**
  * Defines task operations such as pause, resume, cancel, and enqueue for all tasks.
+ *
  * All tasks are required to implement enqueue, which begins the task, and may optionally
  * implement pause, resume, and cancel, which operate on the task to pause, resume, and cancel
  * operations.

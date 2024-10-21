@@ -8,7 +8,7 @@ Additionally, FirebaseUI simplifies Firebase authentication by providing easy to
 
 FirebaseUI clients are also available for [Android](https://github.com/firebase/FirebaseUI-Android) and [web](https://github.com/firebase/firebaseui-web).
 
-![](https://raw.githubusercontent.com/firebase/FirebaseUI-iOS/master/samples/demo.gif)
+![](https://raw.githubusercontent.com/firebase/FirebaseUI-iOS/main/samples/demo.gif)
 
 ## Installing FirebaseUI for iOS
 
@@ -23,31 +23,31 @@ If you don't want to use all of FirebaseUI, there are multiple subspecs which ca
 
 ```ruby
 # Only pull in Firestore features
-pod 'FirebaseUI/Firestore', '~> 8.0'
+pod 'FirebaseUI/Firestore'
 
 # Only pull in Database features
-pod 'FirebaseUI/Database', '~> 8.0'
+pod 'FirebaseUI/Database'
 
 # Only pull in Storage features
-pod 'FirebaseUI/Storage', '~> 8.0'
+pod 'FirebaseUI/Storage'
 
 # Only pull in Auth features
-pod 'FirebaseUI/Auth', '~> 8.0'
+pod 'FirebaseUI/Auth'
 
 # Only pull in Facebook login features
-pod 'FirebaseUI/Facebook', '~> 8.0'
+pod 'FirebaseUI/Facebook'
 
 # Only pull in Google login features
-pod 'FirebaseUI/Google', '~> 8.0'
+pod 'FirebaseUI/Google'
 
 # Only pull in Phone Auth login features
-pod 'FirebaseUI/Phone', '~> 8.0'
+pod 'FirebaseUI/Phone'
 ```
 
 If you're including FirebaseUI in a Swift project, make sure you also have:
 
 ```ruby
-platform :ios, '10.0'
+platform :ios, '13.0'
 use_frameworks!
 ```
 
@@ -61,11 +61,11 @@ to your project.
 The READMEs for components of FirebaseUI can be found in their respective
 project folders.
 
-- [Auth](Auth/README.md)
-- [PhoneAuth](PhoneAuth/README.md)
-- [Database](Database/README.md)
-- [Firestore](Firestore/README.md)
-- [Storage](Storage/README.md)
+- [Auth](FirebaseAuthUI/README.md)
+- [PhoneAuth](FirebasePhoneAuthUI/README.md)
+- [Database](FirebaseDatabaseUI/README.md)
+- [Firestore](FirebaseFirestoreUI/README.md)
+- [Storage](FirebaseStorageUI/README.md)
 
 ## Local Setup
 

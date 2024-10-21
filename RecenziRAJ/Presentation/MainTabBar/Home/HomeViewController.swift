@@ -36,7 +36,7 @@ final class HomeViewController: BaseViewController<HomeViewModel> {
     
     private lazy var itemImageView: UIImageView = {
         let imageView = UIImageView()
-        imageView.contentMode = .scaleAspectFill
+        imageView.contentMode = .scaleAspectFit
         imageView.image = nil
         imageView.isUserInteractionEnabled = true
         imageView.isMultipleTouchEnabled = true
@@ -80,7 +80,6 @@ private extension HomeViewController {
         view.addSubview(takeImageButton)
         view.addSubview(itemImageView)
         view.addSubview(classificationResultTableView)
-        
     }
     
     func makeConstraints() {
@@ -98,9 +97,9 @@ private extension HomeViewController {
         }
         
         itemImageView.snp.makeConstraints {
-            $0.top.equalTo(takeImageButton.snp.bottomMargin)
+            $0.top.equalTo(introductionLabel.snp.bottomMargin)
             $0.leading.trailing.equalToSuperview().inset(20)
-            $0.height.equalTo(100)
+            $0.height.equalTo(400)
         }
         
         classificationResultTableView.snp.makeConstraints {

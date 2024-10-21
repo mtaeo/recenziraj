@@ -14,12 +14,8 @@
 // limitations under the License.
 //
 
-#ifndef GRPC_CORE_LIB_URI_URI_PARSER_H
-#define GRPC_CORE_LIB_URI_URI_PARSER_H
-
-#include <grpc/support/port_platform.h>
-
-#include <stddef.h>
+#ifndef GRPC_SRC_CORE_LIB_URI_URI_PARSER_H
+#define GRPC_SRC_CORE_LIB_URI_URI_PARSER_H
 
 #include <map>
 #include <string>
@@ -27,6 +23,8 @@
 
 #include "absl/status/statusor.h"
 #include "absl/strings/string_view.h"
+
+#include <grpc/support/port_platform.h>
 
 namespace grpc_core {
 
@@ -62,6 +60,7 @@ class URI {
   URI(URI&&) = default;
   URI& operator=(URI&&) = default;
 
+  static std::string PercentEncodeAuthority(absl::string_view str);
   static std::string PercentEncodePath(absl::string_view str);
 
   static std::string PercentDecode(absl::string_view str);
@@ -99,4 +98,4 @@ class URI {
 };
 }  // namespace grpc_core
 
-#endif  // GRPC_CORE_LIB_URI_URI_PARSER_H
+#endif  // GRPC_SRC_CORE_LIB_URI_URI_PARSER_H
