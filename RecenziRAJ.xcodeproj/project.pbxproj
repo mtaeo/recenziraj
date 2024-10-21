@@ -50,7 +50,7 @@
 		8CE77FC628BBB0B400B6B0F0 /* AuthErrors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CE77FC528BBB0B400B6B0F0 /* AuthErrors.swift */; };
 		8CF861B428C7F2440044B440 /* MainTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CF861B328C7F2440044B440 /* MainTabBarController.swift */; };
 		8CF861B628C7F25C0044B440 /* MainTabBarViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CF861B528C7F25C0044B440 /* MainTabBarViewModel.swift */; };
-		DA5CB367D0423F914A3148DF /* Pods_RecenziRAJ.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8177BEB7064AEC4EA93F84BE /* Pods_RecenziRAJ.framework */; };
+		A2A5E0A02CC6FF1300CF8D78 /* Pods_RecenziRAJ.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8177BEB7064AEC4EA93F84BE /* Pods_RecenziRAJ.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -91,7 +91,7 @@
 		8CB98A2228CA8DBF0070EA0A /* HomeCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeCoordinator.swift; sourceTree = "<group>"; };
 		8CB98A2428CA8E300070EA0A /* ProfileCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileCoordinator.swift; sourceTree = "<group>"; };
 		8CD2CDEC2991C695006950EB /* UIImageTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIImageTest.swift; sourceTree = "<group>"; };
-		8CD2CDF22992CC9D006950EB /* RecenzirajFinalClassifier.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; path = RecenzirajFinalClassifier.mlmodel; sourceTree = "<group>"; };
+		8CD2CDF22992CC9D006950EB /* RecenzirajFinalClassifier.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; name = RecenzirajFinalClassifier.mlmodel; path = RecenziRAJ/Classifier/RecenzirajFinalClassifier.mlmodel; sourceTree = SOURCE_ROOT; };
 		8CDEAC222988948E0014486E /* UserInteractionsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInteractionsService.swift; sourceTree = "<group>"; };
 		8CDEAC24298897B90014486E /* ItemReview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemReview.swift; sourceTree = "<group>"; };
 		8CDEAC272988991B0014486E /* Encodable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Encodable.swift; sourceTree = "<group>"; };
@@ -109,7 +109,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				DA5CB367D0423F914A3148DF /* Pods_RecenziRAJ.framework in Frameworks */,
+				A2A5E0A02CC6FF1300CF8D78 /* Pods_RecenziRAJ.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -683,6 +683,7 @@
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UIUserInterfaceStyle = Light;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.5;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -715,6 +716,7 @@
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UIUserInterfaceStyle = Light;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.5;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

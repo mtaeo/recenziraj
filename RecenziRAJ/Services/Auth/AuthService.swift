@@ -46,7 +46,7 @@ final class AuthService: AuthServiceProtocol {
             let loginError: ApiError.LoginError?
             
             if let error = error as NSError? {
-                let errorCode = AuthErrorCode(_nsError: error).code
+                let errorCode = AuthErrorCode(_bridgedNSError: error)?.code
                 
                 switch errorCode {
                 case .invalidEmail:
@@ -72,7 +72,7 @@ final class AuthService: AuthServiceProtocol {
             let signUpError: ApiError.RegisterError?
             
             if let error = error as NSError? {
-                let errorCode = AuthErrorCode(_nsError: error).code
+                let errorCode = AuthErrorCode(_bridgedNSError: error)?.code
                 
                 switch errorCode {
                 case .emailAlreadyInUse:

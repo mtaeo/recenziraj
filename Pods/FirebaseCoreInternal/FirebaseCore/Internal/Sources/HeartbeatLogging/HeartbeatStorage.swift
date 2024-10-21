@@ -20,6 +20,8 @@ protocol HeartbeatStorageProtocol {
   func readAndWriteAsync(using transform: @escaping (HeartbeatsBundle?) -> HeartbeatsBundle?)
   func getAndSet(using transform: (HeartbeatsBundle?) -> HeartbeatsBundle?) throws
     -> HeartbeatsBundle?
+  func getAndSetAsync(using transform: @escaping (HeartbeatsBundle?) -> HeartbeatsBundle?,
+                      completion: @escaping (Result<HeartbeatsBundle?, Error>) -> Void)
 }
 
 /// Thread-safe storage object designed for transforming heartbeat data that is persisted to disk.
@@ -37,7 +39,7 @@ final class HeartbeatStorage: HeartbeatStorageProtocol {
 
   /// Designated initializer.
   /// - Parameters:
-  ///   - id: A string identifer.
+  ///   - id: A string identifier.
   ///   - storage: The underlying storage container where heartbeat data is stored.
   init(id: String,
        storage: Storage) {
@@ -69,7 +71,8 @@ final class HeartbeatStorage: HeartbeatStorageProtocol {
   /// Makes a `HeartbeatStorage` instance using a given `String` identifier.
   ///
   /// The created persistent storage object is platform dependent. For tvOS, user defaults
-  /// is used as the underlying storage container due to system storage limits. For all other platforms,
+  /// is used as the underlying storage container due to system storage limits. For all other
+  /// platforms,
   /// the file system is used.
   ///
   /// - Parameter id: A `String` identifier used to create the `HeartbeatStorage`.
@@ -115,7 +118,8 @@ final class HeartbeatStorage: HeartbeatStorageProtocol {
   /// Synchronously gets the current heartbeat data from storage and resets the storage using the
   /// given transform block.
   ///
-  /// This API is like any `getAndSet`-style API in that it gets (and returns) the current value and uses
+  /// This API is like any `getAndSet`-style API in that it gets (and returns) the current value and
+  /// uses
   /// a block to transform the current value (or, soon-to-be old value) to a new value.
   ///
   /// - Parameter transform: An optional block used to reset the currently stored heartbeat.
@@ -132,13 +136,39 @@ final class HeartbeatStorage: HeartbeatStorageProtocol {
     return heartbeatsBundle
   }
 
+  /// Asynchronously gets the current heartbeat data from storage and resets the storage using the
+  /// given transform block.
+  /// - Parameters:
+  ///   - transform: An escaping block used to reset the currently stored heartbeat.
+  ///   - completion: An escaping block used to process the heartbeat data that
+  ///   was stored (before the `transform` was applied); otherwise, the error
+  ///   that occurred.
+  func getAndSetAsync(using transform: @escaping (HeartbeatsBundle?) -> HeartbeatsBundle?,
+                      completion: @escaping (Result<HeartbeatsBundle?, Error>) -> Void) {
+    queue.async {
+      do {
+        let oldHeartbeatsBundle = try? self.load(from: self.storage)
+        let newHeartbeatsBundle = transform(oldHeartbeatsBundle)
+        try self.save(newHeartbeatsBundle, to: self.storage)
+        completion(.success(oldHeartbeatsBundle))
+      } catch {
+        completion(.failure(error))
+      }
+    }
+  }
+
   /// Loads and decodes the stored heartbeats bundle from a given storage object.
   /// - Parameter storage: The storage container to read from.
-  /// - Returns: The decoded `HeartbeatsBundle` that is loaded from storage.
-  private func load(from storage: Storage) throws -> HeartbeatsBundle {
+  /// - Returns: The decoded `HeartbeatsBundle` loaded from storage; `nil` if storage is empty.
+  /// - Throws: An error if storage could not be read or the data could not be decoded.
+  private func load(from storage: Storage) throws -> HeartbeatsBundle? {
     let data = try storage.read()
-    let heartbeatData = try data.decoded(using: decoder) as HeartbeatsBundle
-    return heartbeatData
+    if data.isEmpty {
+      return nil
+    } else {
+      let heartbeatData = try data.decoded(using: decoder) as HeartbeatsBundle
+      return heartbeatData
+    }
   }
 
   /// Saves the encoding of the given value to the given storage container.
@@ -146,7 +176,7 @@ final class HeartbeatStorage: HeartbeatStorageProtocol {
   ///   - heartbeatsBundle: The heartbeats bundle to encode and save.
   ///   - storage: The storage container to write to.
   private func save(_ heartbeatsBundle: HeartbeatsBundle?, to storage: Storage) throws {
-    if let heartbeatsBundle = heartbeatsBundle {
+    if let heartbeatsBundle {
       let data = try heartbeatsBundle.encoded(using: encoder)
       try storage.write(data)
     } else {

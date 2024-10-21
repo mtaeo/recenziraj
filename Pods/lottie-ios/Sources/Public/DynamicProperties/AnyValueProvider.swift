@@ -5,14 +5,13 @@
 //  Created by Brandon Withrow on 1/30/19.
 //
 
-import CoreGraphics
 import Foundation
 
 // MARK: - AnyValueProvider
 
 /// `AnyValueProvider` is a protocol that return animation data for a property at a
-/// given time. Every frame an `AnimationView` queries all of its properties and asks
-/// if their ValueProvider has an update. If it does the AnimationView will read the
+/// given time. Every frame a `LottieAnimationView` queries all of its properties and asks
+/// if their ValueProvider has an update. If it does the LottieAnimationView will read the
 /// property and update that portion of the animation.
 ///
 /// Value Providers can be used to dynamically set animation properties at run time.
@@ -50,13 +49,13 @@ extension ValueProvider {
   public var typeErasedStorage: AnyValueProviderStorage {
     switch storage {
     case .closure(let typedClosure):
-      return .closure(typedClosure)
+      .closure(typedClosure)
 
     case .singleValue(let typedValue):
-      return .singleValue(typedValue)
+      .singleValue(typedValue)
 
     case .keyframes(let keyframes):
-      return .keyframes(
+      .keyframes(
         keyframes.map { keyframe in
           keyframe.withValue(keyframe.value as Any)
         },
@@ -89,13 +88,13 @@ public enum ValueProviderStorage<T: AnyInterpolatable> {
   func value(frame: AnimationFrameTime) -> T {
     switch self {
     case .singleValue(let value):
-      return value
+      value
 
     case .closure(let closure):
-      return closure(frame)
+      closure(frame)
 
     case .keyframes(let keyframes):
-      return KeyframeInterpolator(keyframes: ContiguousArray(keyframes)).storage.value(frame: frame)
+      KeyframeInterpolator(keyframes: ContiguousArray(keyframes)).storage.value(frame: frame)
     }
   }
 }
@@ -120,13 +119,13 @@ public enum AnyValueProviderStorage {
   func value(frame: AnimationFrameTime) -> Any {
     switch self {
     case .singleValue(let value):
-      return value
+      value
 
     case .closure(let closure):
-      return closure(frame)
+      closure(frame)
 
     case .keyframes(_, let valueForFrame):
-      return valueForFrame(frame)
+      valueForFrame(frame)
     }
   }
 }

@@ -33,6 +33,8 @@ final class StorageService: StorageServiceProtocol {
     }
     
     func downloadProfileImage(uid: String, completion: @escaping ((Data?, Error?) -> Void)) {
+        
+        
         if let imageDataFromCache = imageCache[uid] {
             completion(imageDataFromCache, nil)
         } else {

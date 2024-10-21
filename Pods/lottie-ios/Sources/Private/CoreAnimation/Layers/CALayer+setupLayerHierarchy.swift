@@ -15,7 +15,7 @@ extension CALayer {
     context: LayerContext)
     throws
   {
-    // An `Animation`'s `LayerModel`s are listed from front to back,
+    // A `LottieAnimation`'s `LayerModel`s are listed from front to back,
     // but `CALayer.sublayers` are listed from back to front.
     // We reverse the layer ordering to match what Core Animation expects.
     // The final view hierarchy must display the layers in this exact order.
@@ -51,7 +51,7 @@ extension CALayer {
     }
 
     // Create an `AnimationLayer` for each `LayerModel`
-    for (layerModel, mask) in try layersInZAxisOrder.pairedLayersAndMasks(context: context) {
+    for (layerModel, mask) in try layersInZAxisOrder.pairedLayersAndMasks() {
       guard let layer = try layerModel.makeAnimationLayer(context: context) else {
         continue
       }
@@ -67,7 +67,7 @@ extension CALayer {
 
       // Create the `mask` layer for this layer, if it has a `MatteType`
       if
-        let mask = mask,
+        let mask,
         let maskLayer = try maskLayer(for: mask.model, type: mask.matteType, context: context)
       {
         let maskParentTransformLayer = makeParentTransformLayer(
@@ -106,8 +106,8 @@ extension CALayer {
   fileprivate func maskLayer(
     for matteLayerModel: LayerModel,
     type: MatteType,
-    context: LayerContext) throws
-    -> CALayer?
+    context: LayerContext)
+    throws -> CALayer?
   {
     switch type {
     case .add:
@@ -123,7 +123,9 @@ extension CALayer {
       // layer being masked, this creates an inverted mask where only areas _outside_
       // of the mask layer are visible.
       // https://developer.apple.com/documentation/coregraphics/cgblendmode/xor
-      let base = BaseAnimationLayer()
+      //  - The inverted mask is supposed to expand infinitely around the shape,
+      //    so we use `InfiniteOpaqueAnimationLayer`
+      let base = InfiniteOpaqueAnimationLayer()
       base.backgroundColor = .rgb(0, 0, 0)
       base.addSublayer(maskLayer)
       maskLayer.compositingFilter = "xor"
@@ -136,12 +138,12 @@ extension CALayer {
 
 }
 
-extension Collection where Element == LayerModel {
+extension Collection<LayerModel> {
   /// Pairs each `LayerModel` within this array with
   /// a `LayerModel` to use as its mask, if applicable
   /// based on the layer's `MatteType` configuration.
   ///  - Assumes the layers are sorted in z-axis order.
-  fileprivate func pairedLayersAndMasks(context _: LayerContext) throws
+  fileprivate func pairedLayersAndMasks() throws
     -> [(layer: LayerModel, mask: (model: LayerModel, matteType: MatteType)?)]
   {
     var layersAndMasks = [(layer: LayerModel, mask: (model: LayerModel, matteType: MatteType)?)]()

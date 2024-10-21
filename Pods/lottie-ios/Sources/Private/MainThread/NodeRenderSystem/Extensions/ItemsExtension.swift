@@ -5,8 +5,6 @@
 //  Created by Brandon Withrow on 1/18/19.
 //
 
-import Foundation
-
 // MARK: - NodeTree
 
 final class NodeTree {
@@ -17,7 +15,7 @@ final class NodeTree {
   var childrenNodes: [AnimatorNode] = []
 }
 
-extension Array where Element == ShapeItem {
+extension [ShapeItem] {
   func initializeNodeTree() -> NodeTree {
     let nodeTree = NodeTree()
 
@@ -51,10 +49,12 @@ extension Array where Element == ShapeItem {
         switch star.starType {
         case .none:
           continue
+
         case .polygon:
           let node = PolygonNode(parentNode: nodeTree.rootNode, star: star)
           nodeTree.rootNode = node
           nodeTree.childrenNodes.append(node)
+
         case .star:
           let node = StarNode(parentNode: nodeTree.rootNode, star: star)
           nodeTree.rootNode = node
@@ -66,6 +66,13 @@ extension Array where Element == ShapeItem {
         nodeTree.childrenNodes.append(node)
       } else if let trim = item as? Trim {
         let node = TrimPathNode(parentNode: nodeTree.rootNode, trim: trim, upstreamPaths: nodeTree.paths)
+        nodeTree.rootNode = node
+        nodeTree.childrenNodes.append(node)
+      } else if let roundedCorners = item as? RoundedCorners {
+        let node = RoundedCornersNode(
+          parentNode: nodeTree.rootNode,
+          roundedCorners: roundedCorners,
+          upstreamPaths: nodeTree.paths)
         nodeTree.rootNode = node
         nodeTree.childrenNodes.append(node)
       } else if let xform = item as? ShapeTransform {
@@ -80,7 +87,7 @@ extension Array where Element == ShapeItem {
         nodeTree.paths.append(contentsOf: tree.paths)
         nodeTree.renderContainers.append(node.container)
       } else if item is Repeater {
-        LottieLogger.shared.assertionFailure("""
+        LottieLogger.shared.warn("""
           The Main Thread rendering engine doesn't currently support repeaters.
           To play an animation with repeaters, you can use the Core Animation rendering engine instead.
           """)
